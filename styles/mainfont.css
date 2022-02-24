@@ -1,0 +1,223 @@
+@font-face {
+  font-family: "MaplestoryLight";
+  src: url("/static/fonts/MaplestoryLight.ttf");
+}
+
+.main-gradient {
+  background: linear-gradient(70deg, white, #a0c3d8, #bec5df, white);
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+}
+.indexstyle {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "MaplestoryLight";
+}
+
+.all {
+  font-family: "MaplestoryLight";
+}
+
+.person {
+  top: calc(50vh - 58vw);
+}
+
+.rein-1 {
+  width: 40vw;
+  height: 40vw;
+  border: solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rein-1-img {
+  width: 37vw;
+  height: 37vw;
+  object-fit: cover;
+}
+
+.rein-2 {
+  width: 40vw;
+  height: 40vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rein-2-img {
+  width: 35vw;
+  height: 35vw;
+}
+
+.rein-2-text {
+  position: fixed;
+  top: 33vh;
+}
+.garo-garo {
+  overflow-x: scroll;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.reininfo {
+  width: 15vw;
+}
+
+.reininfopic {
+  width: calc(10vh);
+}
+
+.reiningani0 {
+  animation-name: moving0;
+  animation-duration: 0.01s;
+  animation-iteration-count: 150;
+  animation-direction: alternate;
+}
+
+@keyframes moving0 {
+  from {
+    margin-left: 8%;
+  }
+
+  to {
+    margin-left: -8%;
+  }
+}
+
+.reiningani1 {
+  animation-name: moving1;
+  animation-duration: 0.01s;
+  animation-iteration-count: 150;
+  animation-direction: alternate;
+}
+
+@keyframes moving1 {
+  from {
+    margin-top: 2%;
+  }
+
+  to {
+    margin-top: -2%;
+  }
+}
+
+.reiningani2 {
+  animation: rotate_image 0.5s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes rotate_image {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.reiningani3 {
+  animation: derotate_image 0.5s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes derotate_image {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.reinforce-img-box {
+  width: 8vh;
+  height: 8vh;
+  object-fit: contain;
+  background-color: ivory;
+}
+
+.rein-box-0 {
+  width: 8vh;
+  height: 8vh;
+  margin: 2vw;
+  background-color: #c7d7f9;
+  max-height: 18vw;
+  max-width: 18vw;
+  overflow: hidden;
+  border-radius: 7px;
+  position: relative;
+}
+
+.rein-box-1 {
+  width: 8vh;
+  height: 8vh;
+  margin: 2vw;
+  background-color: #cdf8c3;
+  max-height: 18vw;
+  max-width: 18vw;
+  overflow: hidden;
+  border-radius: 7px;
+  position: relative;
+}
+
+.rein-box-2 {
+  width: 8vh;
+  height: 8vh;
+  margin: 2vw;
+  background-color: #f6b5b5;
+  max-height: 18vw;
+  max-width: 18vw;
+  overflow: hidden;
+  border-radius: 7px;
+  position: relative;
+}
+
+.rein-box-3 {
+  width: 8vh;
+  height: 8vh;
+  margin: 2vw;
+  background-color: #cabff6;
+  max-height: 18vw;
+  max-width: 18vw;
+  overflow: hidden;
+  border-radius: 7px;
+  position: relative;
+}
+
+.rein-box-4 {
+  width: 8vh;
+  height: 8vh;
+  margin: 2vw;
+  background-color: #f8eebe;
+  max-height: 18vw;
+  max-width: 18vw;
+  overflow: hidden;
+  border-radius: 7px;
+  position: relative;
+}
+
+.reindurability-bar {
+  width: 6vh;
+  height: 1vw;
+  background-color: lightgray;
+  margin-top: 0;
+  margin-left: 1.5vw;
+}
+
+.reindurability-bar-dynamic {
+  width: 6vh;
+  height: 1vw;
+  background-color: #82f9b7;
+  margin-top: 0;
+}
+
+.cloud-slide {
+  animation: moveCloud 20s linear infinite;
+}
+
+@keyframes moveCloud {
+  0% {
+    transform: translateX(80%);
+  }
+  100% {
+    transform: translateX(-80%);
+  }
+}

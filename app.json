@@ -1,0 +1,10 @@
+{
+  "name": "nextjs",
+  "options": {
+    "allow-unauthenticated": true,
+    "memory": "16Gi",
+    "cpu": "4",
+    "port": 3000,
+    "http2": false
+  }
+}

@@ -1,0 +1,32 @@
+
+:root {
+  --app-height: 100%;
+  --dur-bar-: 12vw;
+  --my-type-outer:16vw;
+  --my-type-margin:1vw;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  width: 100vw;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  @media not all and (hover:hover) {
+      height: var(--app-height);
+  }
+}
+
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

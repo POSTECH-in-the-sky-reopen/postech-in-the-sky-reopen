@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+  nginx:
+    image: nginx
+    restart: unless-stopped
+    volumes:
+      - ./public/static:/usr/share/nginx/static:ro
+      - ./nginx/data/nginx:/etc/nginx/conf.d
+    ports:
+      - "9593:80"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - app
+    networks:
+      - postech-in-the-sky
+
+  app:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "3000"
+    depends_on:
+      - db
+    env_file: .env.development.local
+    networks:
+      - postech-in-the-sky
+
+  db: 
+    image: mysql:8
+    restart: unless-stopped
+    expose:
+      - "3306"
+    ports: 
+      - "19593:3306"
+    cap_add: 
+      - SYS_NICE
+    command:
+      - --max_connections=501
+      - --wait_timeout=30
+    volumes:
+      - db:/var/lib/mysql
+    env_file: .env.development.local
+    networks:
+      - postech-in-the-sky
+
+volumes:
+    db:
+
+networks:
+  postech-in-the-sky:
+    driver: bridge

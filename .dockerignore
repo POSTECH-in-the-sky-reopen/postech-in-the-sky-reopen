@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+README.md
+.next
+nginx
+nginx-certbot
+public
+tools
+discord-bot
+logs
