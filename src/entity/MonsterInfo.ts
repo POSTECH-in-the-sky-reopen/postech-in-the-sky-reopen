@@ -3,7 +3,7 @@ import { BattleType } from "../enums/BattleType"
 import { NANOID_LENGTH } from "./User"
 
 export const MAX_MONSTERINFO_NAME_LENGTH = 40
-export const MONSTER_STATUS_EXP_BASE = 2
+export const MONSTER_STATUS_EXP_BASE = 2.3
 
 @Entity()
 export class MonsterInfo extends BaseEntity { 
