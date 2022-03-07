@@ -10,7 +10,7 @@ import { Player, FATIGUE_REFRESH_MONEY, MAX_NUM_EQUIPABLE_INVENTORY_EACH } from 
 import prepareConnection from "src/lib/db";
 import { currentTimestamp } from "src/lib/time";
 
-export const FATIGUE_DECAY_PER_MINUTE = 5
+export const FATIGUE_DECAY_PER_MINUTE = 1
 
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player> {
