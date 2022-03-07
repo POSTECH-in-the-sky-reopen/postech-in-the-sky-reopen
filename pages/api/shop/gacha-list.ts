@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
-import { getCustomRepository, getRepository, Repository } from "typeorm"
+import { getCustomRepository } from "typeorm"
 import Joi from "joi"
 import { CoordiItemInfoRepository } from 'src/repository/ItemInfoRepository'
 import { ItemType } from 'src/enums/ItemType'

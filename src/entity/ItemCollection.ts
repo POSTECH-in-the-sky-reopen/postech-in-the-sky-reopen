@@ -2,12 +2,8 @@ import {
     BaseEntity,
     Column,
     Entity,
-    JoinColumn,
     JoinTable,
     ManyToMany,
-    ManyToOne,
-    OneToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { GroupInfo } from "./GroupInfo";

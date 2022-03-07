@@ -5,7 +5,6 @@ import { UserRepository } from 'src/repository/UserRepository'
 import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { getCustomRepository } from "typeorm"
 import { readToken } from 'src/lib/jwt'
-import Joi from "joi"
 
 type Data = {
     fatigue?: number,

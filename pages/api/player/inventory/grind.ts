@@ -7,9 +7,8 @@ import { EquipableItem, Item, ITEM_SHARPNESS_GRIND_COST, ITEM_SHARPNESS_GRIND_RA
 import { UserRepository } from 'src/repository/UserRepository'
 import { readToken } from 'src/lib/jwt'
 import Joi from 'joi'
-import { ItemType, sharpnessDiff } from 'src/enums/ItemType'
-import { getEquipableItemStatus } from 'pages/api/player/status/check'
-import { gachaMultiple, gachaMultipleDict } from 'src/lib/random'
+import { sharpnessDiff } from 'src/enums/ItemType'
+import { gachaMultipleDict } from 'src/lib/random'
 import { PlayerRepository } from 'src/repository/PlayerRepository'
 import {deepCopy} from 'src/util/DeepCopy'
 

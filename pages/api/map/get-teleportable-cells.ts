@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prepareConnection from "src/lib/db";
 import { getCustomRepository } from "typeorm";
-import Joi from "joi";
 import { CellRepository } from "src/repository/CellRepository";
 import { Cell } from "src/entity/Cell";
 

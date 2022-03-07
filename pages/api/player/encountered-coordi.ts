@@ -2,10 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { getCustomRepository } from "typeorm"
-import Joi from "joi"
 import { UserRepository } from 'src/repository/UserRepository'
 import { readToken } from 'src/lib/jwt'
-import { BattleType } from 'src/enums/BattleType'
 import { CoordiItemInfoRepository } from 'src/repository/ItemInfoRepository'
 import { ItemType, Layer } from 'src/enums/ItemType'
 

@@ -1,6 +1,6 @@
 import { Item } from './Item'
 import { Cell } from './Cell'
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, OneToOne, JoinColumn, RelationId, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm'
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, ManyToOne, OneToOne, JoinColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm'
 import { Siege } from './Siege'
 import { Achievement } from './Achievement'
 import { Honored } from './Honored'

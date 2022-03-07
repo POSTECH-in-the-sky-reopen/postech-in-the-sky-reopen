@@ -47,7 +47,7 @@ const Home: NextPage = () => {
     let group = []
 
     function greeting() {
-        var randNum = Math.floor(Math.random() * (240)) + 1
+        let randNum = Math.floor(Math.random() * (240)) + 1
         if (randNum > 200) {
             return (
                 "몇 층까지 올라갈 수 있을까?"

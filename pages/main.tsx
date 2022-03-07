@@ -497,7 +497,7 @@ export default function ButtonBases() {
   //let myweapon = "/static/무기/" + equipment?.Weapon?.itemInfo.name + ".png";
 
   function openInNewTap() {
-    var win = window.open("https://open.kakao.com/o/s2NGpUZd", "_blank");
+    let win = window.open("https://open.kakao.com/o/s2NGpUZd", "_blank");
     win !== undefined && win !== null ? win.focus() : "";
   }
 

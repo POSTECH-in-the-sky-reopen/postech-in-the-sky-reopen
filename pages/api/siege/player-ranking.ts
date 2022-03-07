@@ -6,7 +6,6 @@ import { Friend, getFriendDate } from "src/interfaces/Friend";
 import { SiegeRepository } from "src/repository/SiegeRepository";
 import { PhaseRepository } from "src/repository/PhaseRepository";
 import { getEquipments } from "pages/api/player/equipments/get";
-import { GroupInfo } from "src/entity/GroupInfo";
 import { UserRepository } from "src/repository/UserRepository";
 import { readToken } from "src/lib/jwt";
 import { selectHonored } from "pages/api/player/achievement/select";

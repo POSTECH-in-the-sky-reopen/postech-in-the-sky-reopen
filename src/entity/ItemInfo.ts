@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany, TableInheritance, ChildEntity, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm'
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany, TableInheritance, ChildEntity, ManyToMany, JoinTable } from 'typeorm'
 import { BattleType } from '../enums/BattleType'
 import { ItemType, Layer, Specialized } from '../enums/ItemType'
 import { Item } from './Item'

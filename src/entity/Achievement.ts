@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Player } from "./Player";
 
 // 보스에게 데미지를 가장 많이 넣은 사람 <- 총 보스 데미지 저장

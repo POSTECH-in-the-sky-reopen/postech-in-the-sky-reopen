@@ -3,16 +3,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prepareConnection from "src/lib/db";
 import { getCustomRepository } from "typeorm";
 import { Friend, getFriendDate } from "src/interfaces/Friend";
-import { SiegeRepository } from "src/repository/SiegeRepository";
-import { PhaseRepository } from "src/repository/PhaseRepository";
 import { getEquipments } from "pages/api/player/equipments/get";
-import { GroupInfo } from "src/entity/GroupInfo";
-import { UserRepository } from "src/repository/UserRepository";
-import { readToken } from "src/lib/jwt";
 import { selectHonored } from "pages/api/player/achievement/select";
 import { PlayerRepository } from "src/repository/PlayerRepository";
-import { Achievement } from "src/entity/Achievement";
-import { AchievementRepository } from "src/repository/AchievementRepository";
 
 interface CloudTowerFriend extends Friend{
     floor: number
@@ -30,7 +23,6 @@ export default async function handler(
 ) {
     await prepareConnection();
     const playerRepository = getCustomRepository(PlayerRepository);
-    const achievementRepository = getCustomRepository(AchievementRepository)
     try {
         const top10 = await playerRepository.createQueryBuilder("player")
             .leftJoinAndSelect("player.achievement","achievement")

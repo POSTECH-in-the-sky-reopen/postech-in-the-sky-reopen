@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
-import { Cell, CardinalDirection, CELL_LEVEL_RESTRICT_AMOUNT } from 'src/entity/Cell'
+import { Cell, CELL_LEVEL_RESTRICT_AMOUNT } from 'src/entity/Cell'
 import { UserRepository } from 'src/repository/UserRepository'
 import { getCustomRepository } from "typeorm"
 import { readToken } from 'src/lib/jwt'

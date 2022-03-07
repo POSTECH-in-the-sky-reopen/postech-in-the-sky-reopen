@@ -63,7 +63,7 @@ export default async function handler(
         let cellGroupInfoDamage: DHash = {}
         let cellOccupation: Hash = {}
         for (let i = 0; i < cells.length; i++) {
-            var groupDamage: Hash = {
+            let groupDamage: Hash = {
                 0: 0,
                 1: 0,
                 2: 0,
@@ -89,8 +89,8 @@ export default async function handler(
         }
         for (let i = 0; i < cells.length; i++) {
             const groupDamage = cellGroupInfoDamage[cells[i].id]
-            var maxDamageGroupInfo = 0
-            var maxDamage = 0
+            let maxDamageGroupInfo = 0
+            let maxDamage = 0
             for (let j = 0; j < 16; j++) {
                 if(maxDamage < groupDamage[j]){
                     maxDamage = groupDamage[j]

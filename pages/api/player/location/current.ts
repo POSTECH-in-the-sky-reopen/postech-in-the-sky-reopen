@@ -5,8 +5,6 @@ import { Cell } from 'src/entity/Cell'
 import { UserRepository } from 'src/repository/UserRepository'
 import { getCustomRepository } from "typeorm"
 import { readToken } from 'src/lib/jwt'
-import Joi from "joi"
-import { RegionRepository } from 'src/repository/RegionRepository'
 
 type Data = {
     cell?: Cell,

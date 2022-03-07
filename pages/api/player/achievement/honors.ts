@@ -4,12 +4,8 @@ import prepareConnection from "src/lib/db";
 import { getCustomRepository } from "typeorm";
 import { ItemRepository } from "src/repository/ItemRepository";
 import { PlayerRepository } from "src/repository/PlayerRepository";
-import { Item } from "src/entity/Item";
 import { UserRepository } from "src/repository/UserRepository";
 import { readToken } from "src/lib/jwt";
-import { Inventory } from "@mui/icons-material";
-import Joi from "joi";
-import { SortType } from "src/enums/SortType";
 import { HonoredRepository } from "src/repository/HonoredRepository";
 
 type Data = {

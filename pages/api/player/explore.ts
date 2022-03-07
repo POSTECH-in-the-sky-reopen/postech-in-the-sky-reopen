@@ -2,12 +2,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { UserRepository } from 'src/repository/UserRepository'
-import { getCustomRepository, getRepository, Repository } from "typeorm"
+import { getCustomRepository } from "typeorm"
 import { readToken } from 'src/lib/jwt'
-import Joi from "joi"
 import { FATIGUE_INCREASE_AMOUNT, FATIGUE_LIMIT, MAX_NUM_EQUIPABLE_INVENTORY_EACH } from 'src/entity/Player'
 import { ITEM_DROP_ENCHANT_PROBABILITY_PER_LEVEL, ITEM_DROP_EQUIPABLE_PROBABILITY_PER_LEVEL, ITEM_DROP_LEVEL_PER_LEVEL, MONEY_DROP_PER_LEVEL, MONSTER_ENCHANT_PROBABILITY_PER_LEVEL, MONSTER_STRENGTH_MULTIPLIER_PER_LEVEL, SUPPLY_APPEARANCE_RATE_PER_LEVEL } from 'src/entity/Region'
-import { gacha, gachaMultiple, randInt } from 'src/lib/random'
+import { gacha, gachaMultiple } from 'src/lib/random'
 import { battle } from 'src/util/Battle'
 import { getEquipedInformation } from './status/check'
 import { getEquipments } from './equipments/get'
@@ -27,7 +26,6 @@ import { getNpcLog } from 'src/lib/npc'
 import { AchievementRepository } from 'src/repository/AchievementRepository'
 import { addItemManage } from 'src/util/ItemManagement'
 import { CELL_LEVEL_RESTRICT_AMOUNT } from 'src/entity/Cell'
-import { ItemCollection } from 'src/entity/ItemCollection'
 import { generateMonster } from 'src/util/Monster'
 
 type Data = {
@@ -57,7 +55,6 @@ export default async function handler(
     const weaponEquipableItemRepository = getCustomRepository(WeaponEquipableItemRepository)
     const userRepository = getCustomRepository(UserRepository)
     const playerRepository = getCustomRepository(PlayerRepository)
-    const equipableItemInfoRepository = getCustomRepository(EquipableItemInfoRepository)
     const achievementRepository = getCustomRepository(AchievementRepository)
     try {
         const payload = readToken(token)
@@ -95,13 +92,13 @@ export default async function handler(
             throw new Error("레벨이 낮아 이 셀에서 탐색할 수 없습니다.")
         }
 
-        
-        const weaponEquipableCnt = user.player.inventory.reduce((cnt, item) => 
+
+        const weaponEquipableCnt = user.player.inventory.reduce((cnt, item) =>
             cnt + ((item instanceof WeaponEquipableItem && item.durability > 0) ? 1 : 0), 0
-        )    
-        const accessoryEquipableCnt = user.player.inventory.reduce((cnt, item) => 
+        )
+        const accessoryEquipableCnt = user.player.inventory.reduce((cnt, item) =>
             cnt + ((item instanceof AccessoryEquipableItem && item.durability > 0) ? 1 : 0), 0
-        )    
+        )
         if (weaponEquipableCnt >= MAX_NUM_EQUIPABLE_INVENTORY_EACH) {
             throw new Error("무기 인벤토리가 가득 차서 탐색할 수 없습니다.")
         }
@@ -150,20 +147,20 @@ export default async function handler(
                         await weaponEquipableItemRepository.updateEnchant(copiedItem.id, (equipments.Weapon as WeaponEquipableItem).enchantItemInfo)
                         await equipableItemRepository.updateDurability(equipments.Weapon.id, (equipments.Weapon as EquipableItem).durability / 2)
                         await equipableItemRepository.updateDurability(copiedItem.id, (equipments.Weapon as EquipableItem).durability / 2)
-                        supplyLog =varianLog(supplyLog)
+                        supplyLog = varianLog(supplyLog)
                     } else {
-                        supplyLog =supplyFailLog(supplyLog)
+                        supplyLog = supplyFailLog(supplyLog)
                     }
                     break
                 case supplyEventList.Bang:
-                    supplyLog =supplyFailLog(supplyLog)
+                    supplyLog = supplyFailLog(supplyLog)
                     break
                 default:
                     break
             }
             return res.status(200).json({
                 isSupply: true,
-                eventLog: [npcLog,supplyLog],
+                eventLog: [npcLog, supplyLog],
                 moneyReceived: moneyReceived
             })
 
@@ -189,8 +186,8 @@ export default async function handler(
             // 무기 내구도 0 이하일 경우 장착 해제
             let brokenItems = []
             let weapon = await equipableItemRepository.findOne(equipments.Weapon.id)
-            if(weapon !== undefined){
-                if(weapon.durability <= 0){
+            if (weapon !== undefined) {
+                if (weapon.durability <= 0) {
                     weapon.equiped = false
                     await weapon.save()
                     brokenItems.push(weapon)
@@ -198,8 +195,8 @@ export default async function handler(
             }
 
             let accessory = await equipableItemRepository.findOne(equipments.Accessory.id)
-            if(accessory !== undefined){
-                if(accessory.durability <= 0){
+            if (accessory !== undefined) {
+                if (accessory.durability <= 0) {
                     accessory.equiped = false
                     await accessory.save()
                     brokenItems.push(accessory)
@@ -208,9 +205,9 @@ export default async function handler(
 
             // 업적용 정보 관리
             let maxDamage = 0
-            for(let bl of battleLog){
-                if(bl.LogType === "Attack"){
-                    if(bl.IsPlayerAttack){
+            for (let bl of battleLog) {
+                if (bl.LogType === "Attack") {
+                    if (bl.IsPlayerAttack) {
                         maxDamage = Math.max(bl.Damage, 0)
                     }
                 }
@@ -238,12 +235,12 @@ export default async function handler(
             // 이겼을 경우, 플레이어 레벨 갱신
             await playerRepository.updateLevel(user.player.id, cellLevel)
 
-            
+
             // 이겼을 경우, 몬스터 도감에 추가
             try {
                 await playerRepository.addEncounteredMonster(user.player.id, monsterInfo)
             } catch (err) {
-                
+
             }
 
 
@@ -263,7 +260,7 @@ export default async function handler(
 
             // 이겼을 경우, 몬스터가 들고 있는 인챈트 아이템 드랍
             if (monster.enchantItemInfo && gacha(ITEM_DROP_ENCHANT_PROBABILITY_PER_LEVEL[regionLevel] + user.player.group.enchantDrop)) {
-            // if (monster.enchantItemInfo) {
+                // if (monster.enchantItemInfo) {
                 const enchantItemRepository = getCustomRepository(EnchantItemRepository)
 
                 const item = await enchantItemRepository.createAndSave(monster.enchantItemInfo)

@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne, ManyToMany, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, OneToMany, JoinTable } from 'typeorm'
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, OneToMany, JoinTable } from 'typeorm'
 import { Region } from './Region'
 import { BattleType } from '../enums/BattleType'
 import { Player } from './Player'

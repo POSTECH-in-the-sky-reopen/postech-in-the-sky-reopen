@@ -3,15 +3,13 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { getCustomRepository } from "typeorm"
 import { ItemRepository } from 'src/repository/ItemRepository'
-import { PlayerRepository } from 'src/repository/PlayerRepository'
-import { EquipableItem, Item, WeaponEquipableItem } from 'src/entity/Item'
+import { EquipableItem, Item } from 'src/entity/Item'
 import { UserRepository } from 'src/repository/UserRepository'
 import { readToken } from 'src/lib/jwt'
-import { minusStatus, Status } from 'src/interfaces/Status'
+import { Status } from 'src/interfaces/Status'
 import Joi from 'joi'
 import { ItemType } from 'src/enums/ItemType'
-import { deepCopy } from 'src/util/DeepCopy'
-import { getEquipableItembasicStatus, getEquipableItemStatus } from 'pages/api/player/status/check'
+import { getEquipableItemStatus } from 'pages/api/player/status/check'
 import { EnchantItemInfo } from 'src/entity/ItemInfo'
 
 type Data = {

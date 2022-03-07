@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { getCustomRepository } from "typeorm"
-import Joi from "joi"
 import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { calculateBaseStatus, improveStatusItem, Status, sumStatus } from 'src/interfaces/Status'
 import { UserRepository } from 'src/repository/UserRepository'

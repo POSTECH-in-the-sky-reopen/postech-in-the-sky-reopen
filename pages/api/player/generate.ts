@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { getCustomRepository } from "typeorm"
-import Joi from "joi"
 import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { UserRepository } from 'src/repository/UserRepository'
 import { readToken } from 'src/lib/jwt'
@@ -10,7 +9,6 @@ import { CellRepository } from 'src/repository/CellRepository'
 import { DEFAULT_CELL_LOCATION } from 'src/entity/Cell'
 import { Player } from 'src/entity/Player'
 import { AchievementRepository } from 'src/repository/AchievementRepository'
-import { Honored } from 'src/entity/Honored'
 import { HonoredRepository } from 'src/repository/HonoredRepository'
 
 type Data = {

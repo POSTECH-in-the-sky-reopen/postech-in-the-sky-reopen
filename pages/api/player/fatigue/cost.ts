@@ -2,10 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { UserRepository } from 'src/repository/UserRepository'
-import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { getCustomRepository } from "typeorm"
 import { readToken } from 'src/lib/jwt'
-import Joi from "joi"
 import { FATIGUE_REFRESH_MONEY } from 'src/entity/Player'
 import { AVG_CELL_PER_REGION } from 'src/entity/Cell'
 

@@ -108,7 +108,7 @@ export default function Supply() {
   let [player, setPlayer] = React.useState<string | undefined>(undefined)
 
   const scrollBottom = () => {
-    var div = document.getElementById("id");
+    let div = document.getElementById("id");
     div ? div.scrollTop = div.scrollHeight : null;
   };
 

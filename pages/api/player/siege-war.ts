@@ -19,7 +19,7 @@ import { PlayerRepository } from "src/repository/PlayerRepository";
 import { SiegeRepository } from "src/repository/SiegeRepository";
 import { BossMonsterInfoRepository } from "src/repository/MonsterInfoRepository";
 import { MONSTER_STRENGTH_MULTIPLIER_PER_LEVEL } from "src/entity/Region";
-import { BossMonsterInfo, BossMonsterInfoData } from "src/entity/MonsterInfo";
+import { BossMonsterInfoData } from "src/entity/MonsterInfo";
 import { EquipedInformation } from "src/interfaces/EquipedInformation";
 import { EquipableItem, Item } from "src/entity/Item";
 import { MAX_DURABILITY } from "src/constants/durability";

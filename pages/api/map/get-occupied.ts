@@ -2,18 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prepareConnection from "src/lib/db";
 import { getCustomRepository } from "typeorm";
-import Joi from "joi";
-import {
-    ItemRepository,
-    WeaponEquipableItemRepository,
-} from "src/repository/ItemRepository";
-import { PlayerRepository } from "src/repository/PlayerRepository";
-import { ItemType } from "src/enums/ItemType";
 import { readToken } from "src/lib/jwt";
 import { UserRepository } from "src/repository/UserRepository";
-import { EnchantItemInfo } from "src/entity/ItemInfo";
-import { WeaponEquipableItem } from "src/entity/Item";
-import { EnchantItemInfoRepository } from "src/repository/ItemInfoRepository";
 import { CellRepository } from "src/repository/CellRepository";
 import { Cell } from "src/entity/Cell";
 

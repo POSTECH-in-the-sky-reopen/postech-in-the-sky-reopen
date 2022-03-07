@@ -33,7 +33,7 @@ function Shadowpartner({
     function back_hair() {
         if (equipments !== undefined && equipments !== null && equipments.Hair !== undefined) {
             imsrc = '/static/코디/뒷머리_' + equipments.Hair.itemInfo.name + '.png'
-            var files = new Image;
+            let files = new Image;
             files.src = imsrc;
 
             if (files.complete) {
@@ -58,7 +58,7 @@ function Shadowpartner({
     function overlay() {
         if (equipments !== undefined && equipments.Deco !== undefined && equipments.Deco.itemInfo !== undefined && (equipments.Deco.itemInfo as CoordiItemInfo).layers[0] === "7") {
             imsrc = '/static/코디/오버레이_' + equipments.Deco.itemInfo.name + '.png'
-            var files = new Image;
+            let files = new Image;
             files.src = imsrc;
 
             if (files.complete) {
@@ -88,7 +88,7 @@ function Shadowpartner({
     function cape() {
         if (equipments !== undefined && equipments.Deco !== undefined && equipments.Deco.itemInfo !== undefined && (equipments.Deco.itemInfo as CoordiItemInfo).layers[0] === "1") {
             imsrc = '/static/코디/망토_' + equipments.Deco.itemInfo.name + '.png'
-            var files = new Image;
+            let files = new Image;
             files.src = imsrc;
 
             if (files.complete) {

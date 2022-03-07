@@ -20,7 +20,6 @@ export default async function handler(
 ) {
     const token = req.cookies['token']
     await prepareConnection()
-    const itemRepository = getCustomRepository(ItemRepository)
     const userRepository = getCustomRepository(UserRepository)
     try {
         const payload = readToken(token)

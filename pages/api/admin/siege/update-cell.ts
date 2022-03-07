@@ -83,8 +83,8 @@ export default async function handler(
             const siege = sieges[i];
             cellGroupInfoDamage[siege.player.group.num] += siege.damage;
         }
-        var maxDamageGroupInfo = 0;
-        var maxDamage = 0;
+        let maxDamageGroupInfo = 0;
+        let maxDamage = 0;
         for (let j = 1; j < 16; j++) {
             if (maxDamage < cellGroupInfoDamage[j]) {
                 maxDamage = cellGroupInfoDamage[j];

@@ -3,8 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { getCustomRepository, MoreThan } from "typeorm"
 import Joi from "joi"
-import { ItemInfoRepository } from 'src/repository/ItemInfoRepository'
-import { EquipableItemRepository, ItemRepository } from 'src/repository/ItemRepository'
+import { EquipableItemRepository } from 'src/repository/ItemRepository'
 import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { readToken } from 'src/lib/jwt'
 import { UserRepository } from 'src/repository/UserRepository'

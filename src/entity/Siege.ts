@@ -2,9 +2,7 @@ import {
     BaseEntity,
     Column,
     Entity,
-    JoinColumn,
     ManyToOne,
-    OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { Cell } from "./Cell";

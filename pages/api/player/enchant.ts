@@ -4,12 +4,10 @@ import prepareConnection from 'src/lib/db'
 import { getCustomRepository } from "typeorm"
 import Joi from "joi"
 import { ItemRepository, WeaponEquipableItemRepository } from 'src/repository/ItemRepository'
-import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { ItemType } from 'src/enums/ItemType'
 import { readToken } from 'src/lib/jwt'
 import { UserRepository } from 'src/repository/UserRepository'
 import { EnchantItemInfo } from 'src/entity/ItemInfo'
-import { WeaponEquipableItem } from 'src/entity/Item'
 import { EnchantItemInfoRepository } from 'src/repository/ItemInfoRepository'
 import { gacha } from 'src/lib/random'
 
@@ -42,7 +40,6 @@ export default async function handler(
     const itemRepository = getCustomRepository(ItemRepository)
     const weaponEquipableItemRepository = getCustomRepository(WeaponEquipableItemRepository)
     const userRepository = getCustomRepository(UserRepository)
-    const enchantItemInfoRepository = getCustomRepository(EnchantItemInfoRepository)
     try {
         const payload = readToken(token)
         const studentId = payload.studentId

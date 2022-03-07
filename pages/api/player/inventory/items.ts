@@ -7,7 +7,6 @@ import { PlayerRepository } from "src/repository/PlayerRepository";
 import { AccessoryEquipableItem, Item, WeaponEquipableItem } from "src/entity/Item";
 import { UserRepository } from "src/repository/UserRepository";
 import { readToken } from "src/lib/jwt";
-import { Inventory } from "@mui/icons-material";
 import Joi from "joi";
 import { SortType } from "src/enums/SortType";
 import { ItemType } from "src/enums/ItemType";

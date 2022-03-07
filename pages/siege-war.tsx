@@ -73,7 +73,7 @@ export default function Battle() {
     };
 
     const scrollBottom = () => {
-        var div = document.getElementById("id");
+        let div = document.getElementById("id");
         div ? div.scrollTop = div.scrollHeight : null;
     };
 

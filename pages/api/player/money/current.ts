@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prepareConnection from "src/lib/db";
 import { UserRepository } from "src/repository/UserRepository";
 import { getCustomRepository } from "typeorm";
-import Joi from "joi";
 import { readToken } from "src/lib/jwt";
 
 type Data = {

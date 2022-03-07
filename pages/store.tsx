@@ -338,7 +338,7 @@ const Home: NextPage = () => {
 
 
   function balloon() {
-    var randNum = Math.floor(Math.random() * (200 - 1 + 1)) + 1
+    let randNum = Math.floor(Math.random() * (200 - 1 + 1)) + 1
     if (randNum > 180) {
       return (
         "본 게임은 핸드폰 세로 모드를 기준으로 제작되었습니다"
