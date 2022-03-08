@@ -1,22 +1,21 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm'
 import { Player } from './Player'
 
-export const NANOID_LENGTH = 10
+export const NANOID_LENGTH = 30
 
 @Entity()
 export class User extends BaseEntity { 
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column('char', {
+    @Column('varchar', {
         length: NANOID_LENGTH,
-        unique: true
+        unique: true,
     })
-    pin: string
+    confirmEmailToken: string
     
     @Column('char', {
-        length: 60,
-        default: ''
+        length: 60
     })
     password: string
     
@@ -27,9 +26,9 @@ export class User extends BaseEntity {
 
     @Column('varchar', {
         length: 100,
-        default: ''
+        unique: true
     })
-    email: string
+    povisId: string
 
     @Column('int', {
         unique: true

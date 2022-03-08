@@ -5,7 +5,6 @@ import { UserRepository } from 'src/repository/UserRepository'
 import { getCustomRepository } from "typeorm"
 import Joi from "joi"
 import sendMail from 'src/lib/mail'
-import { NANOID_LENGTH } from 'src/entity/User'
 
 type Data = {
     email?: string,
@@ -13,8 +12,11 @@ type Data = {
 }
 
 const schema = Joi.object({
-    pin: Joi.string()
-        .length(NANOID_LENGTH)
+    name: Joi.string()
+        .required(),
+    studentId: Joi.number()
+        .required(),
+    povisId: Joi.string()
         .required(),
 })
 
@@ -28,24 +30,25 @@ export default async function handler(
             message: validateRes.error.message
         })
     }
-    const { pin } : { pin: string } = req.body
+    const { name, studentId, povisId } : { name: string, studentId: number, povisId: string } = req.body
 
     await prepareConnection()
     const userRepository = getCustomRepository(UserRepository)
     try {
-        const user = await userRepository.findOneByPin(pin)
-        const filterRegExp = new RegExp("(.{0,3})(.*)(@.*)", "g")
-        const matches = user.email.matchAll(filterRegExp)
+        const user = await userRepository.findOneByInfo(name, studentId, povisId)
+        const filterRegExp = new RegExp("(.{0,3})(.*)", "g")
+        const matches = user.povisId.matchAll(filterRegExp)
         const match = matches.next().value
         if (match === undefined) {
             throw new Error('invalid email')
         }
-        const filtered = match[1] + '*'.repeat(match[2].length) + match[3]
+        const filtered = match[1] + '*'.repeat(match[2].length) + '@postech.ac.kr'
 
         const resetPasswordToken = await userRepository.generateResetPasswordToken(user.id)
         const resetUrl = `http://${req.headers.host}/user/reset-password?resetPasswordToken=${resetPasswordToken}`
 
         const from = '<천공의 섬 포스텍>'
+        const email = `${user.povisId}@postech.ac.kr`
         const subject = '비밀번호 재설정 안내'
         const content = '안녕하세요 학우님! <천공의 섬 포스텍>입니다.<br><br>'
                         + '본 메일은 학우님의 비밀번호를 재설정하기 위해 발송되었습니다. '
@@ -53,7 +56,7 @@ export default async function handler(
                         + `<a href=${resetUrl}>비밀번호 재설정하기</a><br><br>`
                         + '위 버튼이 눌리지 않는다면 아래 주소로 접속해주세요.<br>'
                         + resetUrl
-        await sendMail(from, user.email, subject, content)
+        await sendMail(from, email, subject, content)
 
         return res.status(200).json({
             email: filtered

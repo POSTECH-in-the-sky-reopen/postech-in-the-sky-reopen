@@ -11,14 +11,12 @@ import { OnChangeFunc } from "src/components/type-misc";
 import InputCheckValid from "src/components/InputCheckValid";
 import SubmitCheckValid from "src/components/SubmitCheckValid";
 import LinkPage from "src/components/LinkPage";
-import { isValidNanoid } from "./forgot-password";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
 const theme = createTheme({
@@ -38,24 +36,22 @@ const theme = createTheme({
   },
 });
 
+export interface inputField {
+  value: string,
+  message: string,
+  isValid: boolean,
+}
+
 export default function SignUp() {
-  let [pin, setPin] = React.useState<string>("");
-  let [email, setEmail] = React.useState<string>("");
-  let [password, setPassword] = React.useState<string>("");
-  let [repassword, setRepassword] = React.useState<string>("");
+  let [name, setName] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [studentId, setStudentId] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [povisId, setPovisId] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [password, setPassword] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [repassword, setRepassword] = React.useState<inputField>({value: "", message: "", isValid: false});
 
-  const [pinMessage, setPinMessage] = React.useState<string>("");
-  const [emailMessage, setEmailMessage] = React.useState<string>("");
-  const [passwordMessage, setPasswordMessage] = React.useState<string>("");
-  const [repasswordMessage, setRepasswordMessage] = React.useState<string>("");
-
-  const [isPin, setIsPin] = React.useState<boolean>(false);
-  const [isEmail, setIsEmail] = React.useState<boolean>(false);
-  const [isPassword, setIsPassword] = React.useState<boolean>(false);
-  const [isRepassword, setIsRepassword] = React.useState<boolean>(false);
   const [isCheck, setIsCheck] = React.useState<boolean>(false);
 
-  let [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -64,60 +60,60 @@ export default function SignUp() {
     setOpen(false);
   };
 
-  let pattern_special = /[~!@#$%<>^&*()\-=+_\\\/,.:;|'"]/gi;
-  let pattern_emailcheck = /.+@.+\..+/gi;
-
-  const pinChange: OnChangeFunc = (
+  let patternName = /^[ㄱ-ㅎ가-힣a-z ]*$/gi;
+  const nameChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     let value = event.target.value;
-    if (!isValidNanoid(value)) {
-      setPinMessage("핀번호 형식이 올바르지 않습니다!");
-      setIsPin(false);
+    if (!value.match(patternName)) {
+      setName({ value: value, message: "이름 형식이 올바르지 않습니다.", isValid: false});
     } else {
-      setPinMessage("");
-      setIsPin(true);
+      setName({ value: value, message: "", isValid: true});
     }
-    setPin(value);
   };
-  const emailChange: OnChangeFunc = (
+
+  let patternStudentId = /^[0-9]{8}$/gi;
+  const studentIdChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     let value = event.target.value;
-    if (!value.match(pattern_emailcheck)) {
-      setEmailMessage("이메일 형식이 올바르지 않습니다!");
-      setIsEmail(false);
+    if (!value.match(patternStudentId)) {
+      setStudentId({ value: value, message: "학번 형식이 올바르지 않습니다.", isValid: false});
     } else {
-      setEmailMessage("");
-      setIsEmail(true);
+      setStudentId({ value: value, message: "", isValid: true});
     }
-    setEmail(value);
+  };
+
+  let patternPovisId = /^[a-z0-9-_\.]*$/gi;
+  const povisIdChange: OnChangeFunc = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let value = event.target.value;
+    if (!value.match(patternPovisId)) {
+      setPovisId({ value: value, message: "POVIS 아이디 형식이 올바르지 않습니다.", isValid: false});
+    } else {
+      setPovisId({ value: value, message: "", isValid: true});
+    }
   };
   const passwordChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     let value = event.target.value;
-    if (value.length < 6) {
-      setPasswordMessage("6자 이상의 비밀번호를 입력해주세요.");
-      setIsPassword(false);
+    if (value !== "" && value.length < 6) {
+      setPassword({ value: value, message: "6자 이상의 비밀번호를 입력해주세요.", isValid: false});
     } else {
-      setPasswordMessage("");
-      setIsPassword(true);
+      setPassword({ value: value, message: "", isValid: true});
     }
-    setPassword(value);
   };
   const repasswordChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     let value = event.target.value;
-    if (password !== value) {
-      setRepasswordMessage("비밀번호가 일치하지 않습니다.");
-      setIsRepassword(false);
+    if (password.value !== value) {
+      setRepassword({ value: value, message: "비밀번호가 일치하지 않습니다.", isValid: false});
     } else {
-      setRepasswordMessage("");
-      setIsRepassword(true);
+      setRepassword({ value: value, message: "", isValid: true});
     }
-    setRepassword(value);
   };
   const checkboxChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -134,8 +130,9 @@ export default function SignUp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        pin: data.get("pin"),
-        email: data.get("email"),
+        name: data.get("name"),
+        studentId: data.get("studentId"),
+        povisId: data.get("povisId"),
         password: data.get("password"),
       }),
     })
@@ -143,7 +140,7 @@ export default function SignUp() {
         const data = await res.json();
         if (res.status >= 400) throw new Error(data.message);
 
-        alert("회원가입이 완료되었습니다!");
+        alert(`${data.email}로 인증 메일이 발송되었습니다. 메일에 있는 링크를 눌러서 가입을 완료해주세요.`);
         location.href = "/user/sign-in";
       })
       .catch((err) => {
@@ -200,40 +197,49 @@ export default function SignUp() {
             >
               <Grid container spacing={2}>
                 <InputCheckValid
-                  input="pin"
-                  label="핀번호"
+                  input="name"
+                  label="이름"
                   isPassword={false}
-                  onChange={pinChange}
-                  value={pin}
-                  isValid={isPin}
-                  message={pinMessage}
+                  onChange={nameChange}
+                  value={name.value}
+                  isValid={name.isValid}
+                  message={name.message}
                 ></InputCheckValid>
                 <InputCheckValid
-                  input="email"
-                  label="이메일"
+                  input="studentId"
+                  label="학번"
                   isPassword={false}
-                  onChange={emailChange}
-                  value={email}
-                  isValid={isEmail}
-                  message={emailMessage}
+                  onChange={studentIdChange}
+                  value={studentId.value}
+                  isValid={studentId.isValid}
+                  message={studentId.message}
+                ></InputCheckValid>
+                <InputCheckValid
+                  input="povisId"
+                  label="POVIS 아이디"
+                  isPassword={false}
+                  onChange={povisIdChange}
+                  value={povisId.value}
+                  isValid={povisId.isValid}
+                  message={povisId.message}
                 ></InputCheckValid>
                 <InputCheckValid
                   input="password"
                   label="비밀번호"
                   isPassword={true}
                   onChange={passwordChange}
-                  value={password}
-                  isValid={isPassword}
-                  message={passwordMessage}
+                  value={password.value}
+                  isValid={password.isValid}
+                  message={password.message}
                 ></InputCheckValid>
                 <InputCheckValid
                   input="repassword"
                   label="비밀번호 재입력"
                   isPassword={true}
                   onChange={repasswordChange}
-                  value={repassword}
-                  isValid={isRepassword}
-                  message={repasswordMessage}
+                  value={repassword.value}
+                  isValid={repassword.isValid}
+                  message={repassword.message}
                 ></InputCheckValid>
                 <Grid item xs={12}>
                   <Stack
@@ -330,7 +336,7 @@ export default function SignUp() {
               </Grid>
               <SubmitCheckValid
                 enabled={
-                  isPin && isEmail && isPassword && isRepassword && isCheck
+                  name.isValid && studentId.isValid && povisId.isValid && password.isValid && repassword.isValid && isCheck
                 }
                 label="회원가입"
               ></SubmitCheckValid>

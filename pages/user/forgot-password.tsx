@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { OnChangeFunc } from 'src/components/type-misc'
 import InputCheckValid from 'src/components/InputCheckValid'
 import SubmitCheckValid from 'src/components/SubmitCheckValid'
+import { inputField } from './sign-up';
 
 const theme = createTheme();
 
@@ -27,21 +28,45 @@ export function isValidNanoid(str: string) {
 
 export default function ForgotPassword() {
 
-  let [pin, setPin] = React.useState<string>('')
-  const [pinMessage, setPinMessage] = React.useState<string>('')
-  const [isPin, setIsPin] = React.useState<boolean>(false)
+  let [name, setName] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [studentId, setStudentId] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [povisId, setPovisId] = React.useState<inputField>({value: "", message: "", isValid: false});
 
-  const pinChange: OnChangeFunc = (event: React.ChangeEvent<HTMLInputElement>) => {
+  let patternName = /^[ㄱ-ㅎ가-힣a-z ]*$/gi;
+  const nameChange: OnChangeFunc = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     let value = event.target.value;
-    if (!isValidNanoid(value)) {
-      setPinMessage('핀번호 형식이 올바르지 않습니다!')
-      setIsPin(false)
+    if (!value.match(patternName)) {
+      setName({ value: value, message: "이름 형식이 올바르지 않습니다.", isValid: false});
     } else {
-      setPinMessage('')
-      setIsPin(true)
+      setName({ value: value, message: "", isValid: true});
     }
-    setPin(value);
-  }
+  };
+
+  let patternStudentId = /^[0-9]{8}$/gi;
+  const studentIdChange: OnChangeFunc = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let value = event.target.value;
+    if (!value.match(patternStudentId)) {
+      setStudentId({ value: value, message: "학번 형식이 올바르지 않습니다.", isValid: false});
+    } else {
+      setStudentId({ value: value, message: "", isValid: true});
+    }
+  };
+
+  let patternPovisId = /^[a-z0-9-_\.]*$/gi;
+  const povisIdChange: OnChangeFunc = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let value = event.target.value;
+    if (!value.match(patternPovisId)) {
+      setPovisId({ value: value, message: "POVIS 아이디 형식이 올바르지 않습니다.", isValid: false});
+    } else {
+      setPovisId({ value: value, message: "", isValid: true});
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +77,9 @@ export default function ForgotPassword() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        pin: data.get('pin')
+        name: data.get("name"),
+        studentId: data.get("studentId"),
+        povisId: data.get("povisId"),
       }),
     })
       .then(async (res) => {
@@ -89,9 +116,35 @@ export default function ForgotPassword() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <InputCheckValid input='pin' label='핀번호' isPassword={false} onChange={pinChange} value={pin} isValid={isPin} message={pinMessage} ></InputCheckValid>
+                <InputCheckValid
+                  input="name"
+                  label="이름"
+                  isPassword={false}
+                  onChange={nameChange}
+                  value={name.value}
+                  isValid={name.isValid}
+                  message={name.message}
+                ></InputCheckValid>
+                <InputCheckValid
+                  input="studentId"
+                  label="학번"
+                  isPassword={false}
+                  onChange={studentIdChange}
+                  value={studentId.value}
+                  isValid={studentId.isValid}
+                  message={studentId.message}
+                ></InputCheckValid>
+                <InputCheckValid
+                  input="povisId"
+                  label="POVIS 아이디"
+                  isPassword={false}
+                  onChange={povisIdChange}
+                  value={povisId.value}
+                  isValid={povisId.isValid}
+                  message={povisId.message}
+                ></InputCheckValid>
             </Grid>
-            <SubmitCheckValid enabled={isPin} label='비밀번호 재설정 요청'></SubmitCheckValid>
+            <SubmitCheckValid enabled={name.isValid && studentId.isValid && povisId.isValid} label='비밀번호 재설정 요청'></SubmitCheckValid>
           </Box>
         </Box>
       </Container>
