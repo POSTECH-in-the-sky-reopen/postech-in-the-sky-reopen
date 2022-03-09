@@ -25,7 +25,7 @@ export default async function handler(
         const studentId = payload.studentId
         let user = await userRepository.findOneByStudentIdSigned(studentId, ["player"])
         return res.status(200).json({
-            cost: Math.floor(user.player.level / AVG_CELL_PER_REGION) * FATIGUE_REFRESH_MONEY
+            cost: Math.ceil(user.player.level / AVG_CELL_PER_REGION) * FATIGUE_REFRESH_MONEY
         })
     } catch (err) {
         console.error(err)
