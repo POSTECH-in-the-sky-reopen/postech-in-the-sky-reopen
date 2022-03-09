@@ -37,7 +37,7 @@ const theme = createTheme({
 });
 
 export interface inputField {
-  value: string | number,
+  value: string,
   message: string,
   isValid: boolean,
 }

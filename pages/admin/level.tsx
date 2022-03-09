@@ -35,7 +35,7 @@ export default function Level() {
       })
   }, [])
 
-  let [level, setLevel] = React.useState<inputField>({value: -1, message: "", isValid: false});
+  let [level, setLevel] = React.useState<inputField>({value: "", message: "", isValid: false});
 
   const levelChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>

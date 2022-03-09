@@ -71,18 +71,13 @@ class Client:
             # assert False
         return res.json()
 
-    def admin_user_generate(self, name, studentId, isAdmin=False):
+    def admin_user_set_admin(self, studentId):
         data = self._access(
-            "admin/user/generate",
+            "admin/user/set-admin",
             {
-                "name": name,
                 "studentId": studentId,
-                "isAdmin": isAdmin,
             },
         )
-        pin = data["pin"]
-        playerId = data["playerId"]
-        return pin, playerId
 
     def user_signup(self, pin, password, email):
         data = self._access(
@@ -420,46 +415,6 @@ class Client:
         json = self._access('admin/group/add-mission-buff',
                             {'groupNum':groupNum,'effectName':effectName}, True)
 
-
-
-    def add_user(self, name, studentId, password, email):
-        pin, playerId = self.admin_user_generate(name, studentId)
-        self._session_off()
-        self.user_signup(pin, password, email)
-        self._admin_session_on()
-        return playerId
-
-    def change_user(self, studentId, password):
-        self._session_off()
-        self.user_signin(studentId, password)
-
-    def add_users(self):
-        self._admin_session_on()
-        data = read_users()
-        pins = []
-        players = []
-        for user in data["users"]:
-            pin, playerId = self.admin_user_generate(user["name"], user["studentId"])
-            self.admin_player_updateGroup(playerId, user["group"])
-            pins.append(pin)
-            players.append(playerId)
-        write_pins(pins)
-        return players
-
-        
-    def add_admins(self):
-        self._admin_session_on()
-        data = read_users(True)
-        pins = []
-        players = []
-        for user in data["users"]:
-            pin, playerId = self.admin_user_generate(user["name"], user["studentId"], True)
-            self.admin_player_updateGroup(playerId, user["group"])
-            pins.append(pin)
-            players.append(playerId)
-        write_pins(pins, True)
-        return players
-
     def add_region_and_cells(self, levels):
         self._admin_session_on()
         cellIds = []
@@ -606,37 +561,7 @@ if __name__ == "__main__":
     for i in range(15 + 1):
         c.admin_player_createGroup(i)
     c.add_region_and_cells([1, 2, 3, 4, 5])
-    players = c.add_users()
-    admins = c.add_admins()
     prepareSilhouette()
     c.add_monsters()
     c.generatePhase()
     weapon_cnt, accessory_cnt, enchant_cnt, coordi_cnt = c.add_items()
-
-    c.add_item_collections()
-    c.addtoGroupCollection()
-
-    # 어드민 아이템 추가
-    for admin in admins:
-        c.admin_player_setlevel(admin, 100)
-        c.admin_money_donateraw(admin, 999999)
-        for i in range(5, 10):
-            c.admin_player_inventory_additem_equipable(admin, i+1, 4, 10)
-            c.admin_player_inventory_additem_equipable(admin, i+1, 5, 10)
-
-        for i in range(weapon_cnt + 5, weapon_cnt + 10):
-            c.admin_player_inventory_additem_equipable(admin, i+1, 4, 10)
-            c.admin_player_inventory_additem_equipable(admin, i+1, 5, 10)
-
-        for i in range(weapon_cnt + accessory_cnt, weapon_cnt + accessory_cnt + 10):
-            c.admin_player_inventory_additem_enchant(admin, i+1)
-
-        for i in range(weapon_cnt + accessory_cnt + enchant_cnt, weapon_cnt + accessory_cnt + enchant_cnt + coordi_cnt):
-            c.admin_player_inventory_additem_coordi(admin, i+1)
-
-    # 기본 무기와 장신구 추가
-    for playerId in players:
-        c.admin_money_donateraw(playerId, 500)
-        for i in range(5):
-            c.admin_player_inventory_additem_equipable(playerId, i+1, 0, 0)
-            c.admin_player_inventory_additem_equipable(playerId, weapon_cnt + i+1, 0, 0)
