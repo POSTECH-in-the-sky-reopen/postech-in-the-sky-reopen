@@ -25,7 +25,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        let user = await userRepository.findOneByStudentId(studentId, ["player", "player.location"])
+        let user = await userRepository.findOneByStudentIdSigned(studentId, ["player", "player.location"])
 
         if (!user.player.location.isCapturable) {
             throw new Error("점령전 셀이 아닙니다.")

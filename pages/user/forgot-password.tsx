@@ -15,7 +15,7 @@ import { inputField } from './sign-up';
 const theme = createTheme();
 
 export function isValidNanoid(str: string) {
-  if (str.length !== 10) {
+  if (str.length !== 30) {
     return false
   }
 

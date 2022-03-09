@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prepareConnection from 'src/lib/db'
 import { UserRepository } from 'src/repository/UserRepository'
-import { getCustomRepository } from "typeorm"
+import { getCustomRepository, getRepository } from "typeorm"
 import Joi from "joi"
 import { PlayerRepository } from 'src/repository/PlayerRepository'
 import { Player } from 'src/entity/Player'
@@ -11,6 +11,10 @@ import { AchievementRepository } from 'src/repository/AchievementRepository'
 import { HonoredRepository } from 'src/repository/HonoredRepository'
 import { DEFAULT_CELL_LOCATION } from 'src/entity/Cell'
 import sendMail from 'src/lib/mail'
+import { BASIC_ITEM_INFO_ID, ItemInfo } from 'src/entity/ItemInfo'
+import { createItem } from '../admin/player/inventory/add-item'
+import { addItemManage } from 'src/util/ItemManagement'
+import { GroupInfoRepository } from 'src/repository/GroupInfoRepository'
 
 type Data = {
     email?: string,
@@ -22,8 +26,13 @@ const schema = Joi.object({
         .required(),
     studentId: Joi.number()
         .min(10000000)
+        .max(99999999)
         .required(),
     povisId: Joi.string()
+        .required(),
+    group: Joi.number()
+        .min(0)
+        .max(15)
         .required(),
     password: Joi.string()
         .min(6)
@@ -40,14 +49,14 @@ export default async function handler(
             message: validateRes.error.message
         })
     }
-    const { name, studentId, povisId, password } : { name: string, studentId: number, povisId: string, password: string } = req.body
+    const { name, studentId, povisId, group, password } : { name: string, studentId: number, povisId: string, group: number, password: string } = req.body
 
     await prepareConnection()
     const userRepository = getCustomRepository(UserRepository)
     try {
         await userRepository.assureNonexistByInfo(name, studentId, povisId)
         const user = await userRepository.createAndSave(name, studentId, povisId, false, password)
-        await generatePlayer(user.id, user.name)
+        await generatePlayer(user.id, user.name, group)
         
         const filterRegExp = new RegExp("(.{0,3})(.*)", "g")
         const matches = povisId.matchAll(filterRegExp)
@@ -56,16 +65,15 @@ export default async function handler(
             throw new Error('invalid email')
         }
         const filtered = match[1] + '*'.repeat(match[2].length) + '@postech.ac.kr'
-
-        const confirmEmailToken = await userRepository.generateResetPasswordToken(user.id)
-        sendConfirmationEmail(req.headers.host, user.povisId, confirmEmailToken)
+        const confirmEmailToken = await userRepository.generateConfirmEmailToken(user.id)
+        await sendConfirmationEmail(req.headers.host, user.povisId, confirmEmailToken)
         return res.status(201).json({
             email: filtered,
             message: "유저를 생성했습니다."
         })
     } catch (err) {
         if (err instanceof Error) {
-            return res.status(404).json({
+            return res.status(409).json({
                 message: err.message,
             });
         } else {
@@ -77,24 +85,34 @@ export default async function handler(
     }
 }
 
-async function generatePlayer(userId: number, name: string): Promise<Player> {
+async function generatePlayer(userId: number, name: string, groupNum: number): Promise<Player> {
     return new Promise((resolve, reject) => {
         const userRepository = getCustomRepository(UserRepository)
         const playerRepository = getCustomRepository(PlayerRepository)
         const cellRepository = getCustomRepository(CellRepository)
         const achievementRepository = getCustomRepository(AchievementRepository)
         const honoredRepository = getCustomRepository(HonoredRepository)
+        const groupRepository = getCustomRepository(GroupInfoRepository)
         const promiseAchievement = achievementRepository.createAndSave()
         const promiseHonored = honoredRepository.createAndSave()
         const promiseDefaultCell = cellRepository.findOneById(DEFAULT_CELL_LOCATION)
-        Promise.all([promiseAchievement, promiseHonored, promiseDefaultCell])
-            .then(async ([achievement, honored, defaultCell]) => {
+        const promiseBasicItemInfos = getRepository(ItemInfo).findByIds(BASIC_ITEM_INFO_ID)
+        const promiseGroup = groupRepository.getByNum(groupNum)
+        Promise.all([promiseAchievement, promiseHonored, promiseDefaultCell, promiseBasicItemInfos, promiseGroup])
+            .then(async ([achievement, honored, defaultCell, basicItemInfos, group]) => {
                 const player = await playerRepository.createAndSave(name, achievement, honored, defaultCell)
                 const updateRes = await userRepository.updatePlayer(userId, player)
                 if (updateRes === undefined || updateRes.affected === 0) {
                     await playerRepository.delete(player.id)
                     return reject()
                 }
+                for (let basicItemInfo of basicItemInfos) {
+                    let item = await createItem(basicItemInfo, 0, 0)
+                    await addItemManage(player, item)
+                }
+                await playerRepository.update(player.id, {
+                    group: group
+                })
                 return resolve(player)
             })
     })

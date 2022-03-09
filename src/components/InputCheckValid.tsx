@@ -8,13 +8,13 @@ interface InputCheckValidProps {
   label: string,
   isPassword: boolean,
   onChange: OnChangeFunc, 
-  value: string, 
+  value: string | number, 
   isValid: boolean, 
   message: string
 }
 
 const InputCheckValid: React.FunctionComponent<InputCheckValidProps> = (props) => {
-  const highlight = props.value.length > 0 ?
+  const highlight = (typeof(props.value) === "number" || props.value.length > 0) ?
     ( props.isValid ? 
       {'error': false} :
       {'error': true}

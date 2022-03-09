@@ -23,7 +23,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        let user = await userRepository.findOneByStudentId(studentId, ["player"])
+        let user = await userRepository.findOneByStudentIdSigned(studentId, ["player"])
         const updateResult = await playerRepository.updateFatigue(user.player.id)
         await user.player.reload()
         return res.status(200).json({

@@ -4,18 +4,29 @@ export default async function sendMail(from: string, email: string, subject: str
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
         auth: {
-            user: process.env.NODEMAILER_USERNAME,
-            pass: process.env.NODEMAILER_PASSWORD,
-        }
+            type: 'OAuth2',
+            user: process.env.GMAIL_ADDRESS,
+            serviceClient: process.env.GMAIL_CLIENT_ID,
+            privateKey: process.env.GMAIL_PRIVATE_KEY ?
+                process.env.GMAIL_PRIVATE_KEY.replace(/\\n/g, "\n") :
+                undefined,
+        },
     })
 
-    const info = await transporter.sendMail({
-        from: `"${from}" <${process.env.NODEMAILER_USERNAME}>`,
+    const mailOptions = {
+        from: process.env.GMAIL_ADDRESS,
         to: email,
         subject: subject,
         html: content,
-    })
+    };
+
+    try {
+        transporter.verify();
+        transporter.sendMail(mailOptions);
+    } catch (err) {
+        throw new Error("메일 발송 실패")
+    }
 }

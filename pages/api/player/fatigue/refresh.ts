@@ -21,7 +21,7 @@ export default async function handler(
   try {
     const payload = readToken(token);
     const studentId = payload.studentId;
-    let user = await userRepository.findOneByStudentId(studentId, ["player"]);
+    let user = await userRepository.findOneByStudentIdSigned(studentId, ["player"]);
     const updateResult = await playerRepository.refreshFatigue(user.player.id);
     if (updateResult.affected === 0) {
       throw new Error("재화가 부족합니다.");

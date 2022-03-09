@@ -54,7 +54,7 @@ export default async function handler(
     try {
         const payload = readToken(token);
         const studentId = payload.studentId;
-        let user = await userRepository.findOneByStudentId(studentId, [
+        let user = await userRepository.findOneByStudentIdSigned(studentId, [
             "player",
             "player.achievement",
             "player.group"

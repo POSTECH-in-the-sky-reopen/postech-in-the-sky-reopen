@@ -22,7 +22,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        const user = await userRepository.findOneByStudentId(
+        const user = await userRepository.findOneByStudentIdSigned(
             studentId, [
             "player", "player.location", "player.location.region",
             "player.location.adjEast", "player.location.adjWest", "player.location.adjSouth", "player.location.adjNorth",
@@ -41,7 +41,7 @@ export default async function handler(
 
 export async function getRegion(studentId: number) {
     const userRepository = getCustomRepository(UserRepository)
-    const user = await userRepository.findOneByStudentId(
+    const user = await userRepository.findOneByStudentIdSigned(
         studentId, [
         "player", "player.location", "player.location.region",
     ]

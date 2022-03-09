@@ -54,7 +54,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        let user = await userRepository.findOneByStudentId(studentId, ["player", "player.group",  "player.inventory", "player.achievement", "player.location", "player.location.region", "player.encounteredBossMonsters"])
+        let user = await userRepository.findOneByStudentIdSigned(studentId, ["player", "player.group",  "player.inventory", "player.achievement", "player.location", "player.location.region", "player.encounteredBossMonsters"])
 
         if (!user.player.location.isCapturable) {
             throw new Error("점령전만 가능한 셀입니다.");

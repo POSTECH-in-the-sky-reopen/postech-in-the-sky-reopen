@@ -11,6 +11,7 @@ export class User extends BaseEntity {
     @Column('varchar', {
         length: NANOID_LENGTH,
         unique: true,
+        nullable: true,
     })
     confirmEmailToken: string
     

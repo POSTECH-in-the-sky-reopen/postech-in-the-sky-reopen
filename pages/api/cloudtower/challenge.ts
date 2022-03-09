@@ -42,7 +42,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        let user = await userRepository.findOneByStudentId(studentId, ["player", "player.inventory", "player.achievement"])
+        let user = await userRepository.findOneByStudentIdSigned(studentId, ["player", "player.inventory", "player.achievement"])
         if(user===undefined){
             throw new Error("유저가 없습니다.")
         }

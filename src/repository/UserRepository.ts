@@ -12,9 +12,13 @@ export class UserRepository extends Repository<User> {
 
     async assureNonexistByStudentId(studentId: number): Promise<void> {
         return new Promise((resolve, reject) => {
-            this.findOneByStudentId(studentId)
+            this.findOneByStudentIdSigned(studentId)
                 .then(user => {
-                    reject()
+                    if (user.confirmEmailToken){
+                        reject("사용자가 존재하지만 이메일 인증이 되지 않았습니다.")
+                    } else {
+                        reject("이미 존재하는 사용자입니다.")
+                    }
                 })
                 .catch(err => {
                     resolve()
@@ -26,7 +30,11 @@ export class UserRepository extends Repository<User> {
         return new Promise((resolve, reject) => {
             this.findOneByInfo(name, studentId, povisId)
                 .then(user => {
-                    reject()
+                    if (user.confirmEmailToken){
+                        reject("사용자가 존재하지만 이메일 인증이 되지 않았습니다.")
+                    } else {
+                        reject("이미 존재하는 사용자입니다.")
+                    }
                 })
                 .catch(err => {
                     resolve()
@@ -34,10 +42,13 @@ export class UserRepository extends Repository<User> {
         })
     }
 
-    async findOneByStudentId(studentId: number, relations: string[] = []): Promise<User> {
+    async findOneByStudentIdSigned(studentId: number, relations: string[] = []): Promise<User> {
         return new Promise((resolve, reject) => {
             this.findOne({
-                where: { studentId: studentId },
+                where: {
+                    studentId: studentId,
+                    confirmEmailToken: null,
+                },
                 relations: relations
             }).then(user => {
                 if (user !== undefined) {
@@ -85,6 +96,23 @@ export class UserRepository extends Repository<User> {
         })
     }
 
+    async confirmEmail(confirmEmailToken: string): Promise<UpdateResult> {
+        return new Promise((resolve, reject) => {
+            this.update({
+                    confirmEmailToken: confirmEmailToken,
+                },{ 
+                    confirmEmailToken: undefined,
+                })
+                .then(updateResult => {
+                    resolve(updateResult)
+                })
+                .catch(err => {
+                    console.error(err)
+                    reject()
+                })
+        })
+    }
+
     async createAndSave(name: string, studentId: number, povisId: string, isAdmin: boolean|undefined, password: string): Promise<User> {
         const user = new User()
         user.name = name
@@ -115,7 +143,7 @@ export class UserRepository extends Repository<User> {
     
     async checkPassword(studentId: number, password: string): Promise<User> {
         return new Promise((resolve, reject) => {
-            this.findOneByStudentId(studentId)
+            this.findOneByStudentIdSigned(studentId)
                 .then(user => {
                     if (user === undefined) {
                         return reject()
@@ -127,7 +155,7 @@ export class UserRepository extends Repository<User> {
                     }
                 })
                 .catch(err => {
-                    reject()
+                    reject(err)
                 })
         })
     }
@@ -159,12 +187,11 @@ export class UserRepository extends Repository<User> {
             const confirmEmailToken = createPin()
             this.update(id,
                 { 
-                    confirmEmailToken: confirmEmailToken,
-                    forgotPasswordAt: currentTimestamp()
+                    confirmEmailToken: confirmEmailToken
                 })
                 .then(updateResult => {
                     if (updateResult.affected === 0) {
-                        throw new Error('존재하지 않는 사용자입니다.')
+                        reject('존재하지 않는 사용자입니다.')
                     }
                     resolve(confirmEmailToken)
                 })

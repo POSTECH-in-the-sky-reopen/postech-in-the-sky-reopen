@@ -37,7 +37,7 @@ const theme = createTheme({
 });
 
 export interface inputField {
-  value: string,
+  value: string | number,
   message: string,
   isValid: boolean,
 }
@@ -46,6 +46,7 @@ export default function SignUp() {
   let [name, setName] = React.useState<inputField>({value: "", message: "", isValid: false});
   let [studentId, setStudentId] = React.useState<inputField>({value: "", message: "", isValid: false});
   let [povisId, setPovisId] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [group, setGroup] = React.useState<inputField>({value: "", message: "", isValid: false});
   let [password, setPassword] = React.useState<inputField>({value: "", message: "", isValid: false});
   let [repassword, setRepassword] = React.useState<inputField>({value: "", message: "", isValid: false});
 
@@ -95,6 +96,18 @@ export default function SignUp() {
       setPovisId({ value: value, message: "", isValid: true});
     }
   };
+
+  const groupChange: OnChangeFunc = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    let value = event.target.value;
+    if (!(parseInt(value) >= 0 && parseInt(value) <= 15)) {
+      setGroup({ value: value, message: "분반 형식이 올바르지 않습니다.", isValid: false});
+    } else {
+      setGroup({ value: value, message: "", isValid: true});
+    }
+  };
+
   const passwordChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -133,6 +146,7 @@ export default function SignUp() {
         name: data.get("name"),
         studentId: data.get("studentId"),
         povisId: data.get("povisId"),
+        group: data.get("group"),
         password: data.get("password"),
       }),
     })
@@ -222,6 +236,15 @@ export default function SignUp() {
                   value={povisId.value}
                   isValid={povisId.isValid}
                   message={povisId.message}
+                ></InputCheckValid>
+                <InputCheckValid
+                  input="group"
+                  label="분반"
+                  isPassword={false}
+                  onChange={groupChange}
+                  value={group.value}
+                  isValid={group.isValid}
+                  message={group.message}
                 ></InputCheckValid>
                 <InputCheckValid
                   input="password"
@@ -336,7 +359,7 @@ export default function SignUp() {
               </Grid>
               <SubmitCheckValid
                 enabled={
-                  name.isValid && studentId.isValid && povisId.isValid && password.isValid && repassword.isValid && isCheck
+                  name.isValid && studentId.isValid && povisId.isValid && group.isValid && password.isValid && repassword.isValid && isCheck
                 }
                 label="회원가입"
               ></SubmitCheckValid>

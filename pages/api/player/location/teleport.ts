@@ -41,7 +41,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        const user = await userRepository.findOneByStudentId(
+        const user = await userRepository.findOneByStudentIdSigned(
             studentId, [
                 "player", "player.location", "player.location.region",
             ]
@@ -60,7 +60,7 @@ export default async function handler(
 
         let updateResult = await playerRepository.updateLocation(user.player, user.player.location, moveTo)
         
-        const newUserWithLocation = await userRepository.findOneByStudentId(
+        const newUserWithLocation = await userRepository.findOneByStudentIdSigned(
             studentId, [
             "player", "player.location", "player.location.region",
             "player.location.adjEast", "player.location.adjWest", "player.location.adjSouth", "player.location.adjNorth",

@@ -7,6 +7,7 @@ import { Player } from './Player'
 import { NANOID_LENGTH } from './User'
 export const MAX_ITEMINFO_NAME_LENGTH = 20
 export const MAX_ITEMINFO_DESCRIPTION_LENGTH = 200
+export const BASIC_ITEM_INFO_ID = [1, 2, 3, 4, 5, 31, 32, 33, 34, 35]
 
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })

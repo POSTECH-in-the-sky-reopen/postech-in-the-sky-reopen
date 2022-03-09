@@ -4,16 +4,16 @@ import prepareConnection from 'src/lib/db'
 import { UserRepository } from 'src/repository/UserRepository'
 import { getCustomRepository } from "typeorm"
 import Joi from "joi"
+import { NANOID_LENGTH } from 'src/entity/User'
 
 type Data = {
-  message?: string
+    message?: string
 }
 
 const schema = Joi.object({
-    studentId: Joi.number()
-        .integer()
+    confirmEmailToken: Joi.string()
+        .length(NANOID_LENGTH)
         .required(),
-    isAdmin: Joi.boolean()
 })
 
 export default async function handler(
@@ -26,19 +26,20 @@ export default async function handler(
             message: validateRes.error.message
         })
     }
-    const { studentId } : { studentId: number } = req.body
+    const { confirmEmailToken } : { confirmEmailToken: string } = req.body
 
     await prepareConnection()
     const userRepository = getCustomRepository(UserRepository)
     try {
-        const user = await userRepository.findOneByStudentIdSigned(studentId)
-        user.isAdmin = true
-        await user.save()
+        let updateResult = await userRepository.confirmEmail(confirmEmailToken)
+        if (updateResult.affected === 0) {
+            throw new Error('존재하지 않는 사용자입니다.')
+        }
         return res.status(200).json({
         })
     } catch (err) {
         return res.status(404).json({
-            message: '존재하지 않는 사용자입니다.'
+            message: (err as Error).message
         })
     }
 }

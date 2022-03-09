@@ -35,7 +35,7 @@ export default async function handler(
     const userRepository = getCustomRepository(UserRepository)
     const playerRepository = getCustomRepository(PlayerRepository)
     try {
-        const user = await userRepository.findOneByStudentId(studentId, ["player"])
+        const user = await userRepository.findOneByStudentIdSigned(studentId, ["player"])
         let player = user.player
         const beforeMoney = player.money
         const afterMoney = beforeMoney + amount

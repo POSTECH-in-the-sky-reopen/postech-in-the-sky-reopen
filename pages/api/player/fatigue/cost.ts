@@ -23,7 +23,7 @@ export default async function handler(
     try {
         const payload = readToken(token)
         const studentId = payload.studentId
-        let user = await userRepository.findOneByStudentId(studentId, ["player"])
+        let user = await userRepository.findOneByStudentIdSigned(studentId, ["player"])
         return res.status(200).json({
             cost: Math.floor(user.player.level / AVG_CELL_PER_REGION) * FATIGUE_REFRESH_MONEY
         })
