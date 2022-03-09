@@ -41,7 +41,6 @@ export default async function handler(
     const equipableItemRepository = getCustomRepository(EquipableItemRepository);
     const weaponEquipableItemRepository = getRepository(WeaponEquipableItem);
     const accessoryEquipableItemRepository = getRepository(AccessoryEquipableItem);
-    const playerRepository = getCustomRepository(PlayerRepository);
     const userRepository = getCustomRepository(UserRepository);
     const token = req.cookies["token"];
     try {

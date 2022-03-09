@@ -14,32 +14,51 @@ import { inputField } from 'pages/user/sign-up';
 
 const theme = createTheme();
 
-export default function SetAdmin() {
+export default function Money() {
+  let [id, setId] = React.useState<number|undefined>(undefined);
+  React.useEffect(function () {
+    fetch("/api/admin/player/id", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (res) => {
+        const data = await res.json()
+        if (res.status >= 400)
+          throw new Error(data.message)
+        setId(data.id)
+      })
+      .catch(err => {
+        console.log(err.message)
+        alert("플레이어 정보를 가져오는 중 실패했습니다.")
+      })
+  }, [])
 
-  let [studentId, setStudentId] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [money, setMoney] = React.useState<inputField>({value: "", message: "", isValid: false});
 
-  let patternStudentId = /^[0-9]{8}$/gi;
-  const studentIdChange: OnChangeFunc = (
+  const moneyChange: OnChangeFunc = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     let value = event.target.value;
-    if (!value.match(patternStudentId)) {
-      setStudentId({ value: value, message: "학번 형식이 올바르지 않습니다.", isValid: false});
+    if (!(parseInt(value) > 0)) {
+      setMoney({ value: value, message: "재화 형식이 올바르지 않습니다.", isValid: false});
     } else {
-      setStudentId({ value: value, message: "", isValid: true});
+      setMoney({ value: value, message: "", isValid: true});
     }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    fetch("/api/admin/user/set-admin", {
+    fetch("/api/admin/money/donate-raw", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({  
-        studentId: data.get('studentId')
+      body: JSON.stringify({
+        playerId: id,
+        amount: data.get('money')
       }),
     })
       .then(async (res) => {
@@ -47,8 +66,8 @@ export default function SetAdmin() {
         if (res.status >= 400)
           throw new Error(data.message)
           
-        alert("관리자 권한이 부여되었습니다!")
-        location.href="/admin/user/set-admin"
+        alert("재화 발급 완료")
+        location.href="/"
       })
       .catch(err => {
         console.log(err.message)
@@ -72,13 +91,13 @@ export default function SetAdmin() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            관리자 권한 부여
+            재화 발급
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid>
-              <InputCheckValid input='studentId' label='학번' isPassword={false} onChange={studentIdChange} value={studentId.value} isValid={studentId.isValid} message={studentId.message} ></InputCheckValid>
+              <InputCheckValid input='money' label='재화' isPassword={false} onChange={moneyChange} value={money.value} isValid={money.isValid} message={money.message} ></InputCheckValid>
             </Grid>
-            <SubmitCheckValid enabled={studentId.isValid} label='요청'></SubmitCheckValid>
+            <SubmitCheckValid enabled={money.isValid} label='요청'></SubmitCheckValid>
           </Box>
         </Box>
       </Container>

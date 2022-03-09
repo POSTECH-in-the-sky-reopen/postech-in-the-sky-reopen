@@ -41,9 +41,7 @@ export default async function handler(
 
     await prepareConnection()
     const itemRepository = getCustomRepository(ItemRepository)
-    const equipableItemRepository = getCustomRepository(EquipableItemRepository)
     const userRepository = getCustomRepository(UserRepository)
-    const playerRepository = getCustomRepository(PlayerRepository)
     const token = req.cookies['token']
     try {
         const payload = readToken(token)

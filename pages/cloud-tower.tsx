@@ -10,8 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import 'animate.css';
-import { EquipedInformation } from 'src/interfaces/EquipedInformation'
-import { Log } from 'src/interfaces/Log'
 import { Friend } from "src/interfaces/Friend";
 
 const theme = createTheme({

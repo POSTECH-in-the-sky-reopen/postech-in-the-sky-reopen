@@ -1,21 +1,8 @@
 import * as React from "react";
-import { css, keyframes } from "@emotion/react";
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import LinkPage from "src/components/LinkPage";
-export default function Start() {
-  const [open, setOpen] = React.useState(true)
+
+export default function Index() {
   let [name, setName] = React.useState<string[] | undefined>(undefined);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   React.useEffect(function () {
     fetch("/api/player/name", {method: 'POST'}).then(async (response) => {
       const data = await response.json();

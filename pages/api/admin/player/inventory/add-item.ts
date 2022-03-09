@@ -6,7 +6,7 @@ import Joi from "joi"
 import { ItemInfoRepository } from 'src/repository/ItemInfoRepository'
 import { CoordiItemRepository, EnchantItemRepository, EquipableItemRepository, ItemRepository } from 'src/repository/ItemRepository'
 import { PlayerRepository } from 'src/repository/PlayerRepository'
-import { CoordiItemInfo, EnchantItemInfo, EquipableItemInfo } from 'src/entity/ItemInfo'
+import { CoordiItemInfo, EnchantItemInfo, EquipableItemInfo, ItemInfo } from 'src/entity/ItemInfo'
 import { Item } from 'src/entity/Item'
 import { addItemManage } from 'src/util/ItemManagement'
 
@@ -42,9 +42,6 @@ export default async function handler(
     
     await prepareConnection()
     const itemInfoRepository = getCustomRepository(ItemInfoRepository)
-    const equipableItemRepository = getCustomRepository(EquipableItemRepository)
-    const coordiItemRepository = getCustomRepository(CoordiItemRepository)
-    const enchantItemRepository = getCustomRepository(EnchantItemRepository)
     const playerRepository = getCustomRepository(PlayerRepository)
     try {
         const player = await playerRepository.findOne(playerId)
@@ -56,18 +53,7 @@ export default async function handler(
             throw new Error("아이템 정보가 존재하지 않습니다.")
         }
 
-        let item: Item
-        if (itemInfo instanceof EquipableItemInfo) {
-            itemLevel = itemLevel === undefined ? 0 : itemLevel
-            sharpness = sharpness === undefined ? 0 : sharpness
-            item = await equipableItemRepository.createAndSave(itemInfo, itemLevel, sharpness)
-        } else if (itemInfo instanceof CoordiItemInfo) {
-            item = await coordiItemRepository.createAndSave(itemInfo)
-        } else if (itemInfo instanceof EnchantItemInfo) {
-            item = await enchantItemRepository.createAndSave(itemInfo)
-        } else {
-            throw new Error("장비 아이템도 인챈트 아이템도 코디 아이템도 아닙니다.")
-        }
+        let item = await createItem(itemInfo, itemLevel, sharpness)
         await addItemManage(player, item)
         return res.status(201).json({
             itemId: item.id
@@ -84,4 +70,23 @@ export default async function handler(
             })
         }
     }
+}
+
+export async function createItem(itemInfo: ItemInfo, itemLevel: number|undefined, sharpness: number|undefined) {
+    const equipableItemRepository = getCustomRepository(EquipableItemRepository)
+    const coordiItemRepository = getCustomRepository(CoordiItemRepository)
+    const enchantItemRepository = getCustomRepository(EnchantItemRepository)
+    let item: Item
+    if (itemInfo instanceof EquipableItemInfo) {
+        itemLevel = itemLevel === undefined ? 0 : itemLevel
+        sharpness = sharpness === undefined ? 0 : sharpness
+        item = await equipableItemRepository.createAndSave(itemInfo, itemLevel, sharpness)
+    } else if (itemInfo instanceof CoordiItemInfo) {
+        item = await coordiItemRepository.createAndSave(itemInfo)
+    } else if (itemInfo instanceof EnchantItemInfo) {
+        item = await enchantItemRepository.createAndSave(itemInfo)
+    } else {
+        throw new Error("장비 아이템도 인챈트 아이템도 코디 아이템도 아닙니다.")
+    }
+    return item
 }

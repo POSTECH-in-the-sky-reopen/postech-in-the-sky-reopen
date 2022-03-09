@@ -3,8 +3,6 @@ import { GroupInfo } from "src/entity/GroupInfo";
 import { Item } from "src/entity/Item";
 import { Player } from "src/entity/Player";
 import { GroupInfoRepository } from "src/repository/GroupInfoRepository";
-import { ItemCollectionRepository } from "src/repository/ItemCollectionRepository";
-import { ItemInfoRepository } from "src/repository/ItemInfoRepository";
 import { ItemRepository } from "src/repository/ItemRepository";
 import { PlayerRepository } from "src/repository/PlayerRepository";
 import { getCustomRepository, getRepository, Raw, UpdateResult } from "typeorm";
