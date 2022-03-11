@@ -64,6 +64,8 @@ export default function SignInSide() {
               position: "absolute",
             }}
           />
+          <div className="log-in-sponsor">아우토크립트 후원! 대박 감사!<br/>모빌리티의 중심 아우토크립트여 영원하라</div>
+          <img src="static/AUTOCRYPT_Logo_Large.png" style={{objectFit: "contain", bottom:"2vh", height:"5vh", position:"absolute"}}/>
           <div className="log-in-box">
             <Container
               component="main"
