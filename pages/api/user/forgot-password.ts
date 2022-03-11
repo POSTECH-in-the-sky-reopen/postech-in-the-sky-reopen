@@ -15,6 +15,8 @@ const schema = Joi.object({
     name: Joi.string()
         .required(),
     studentId: Joi.number()
+        .min(10000000)
+        .max(99999999)
         .required(),
     povisId: Joi.string()
         .required(),

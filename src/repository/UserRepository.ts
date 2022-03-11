@@ -148,6 +148,9 @@ export class UserRepository extends Repository<User> {
                     if (user === undefined) {
                         return reject()
                     }
+                    if (user.confirmEmailToken) {
+                        reject("사용자가 존재하지만 이메일 인증이 되지 않았습니다.")
+                    }
                     if (compareSync(password, user.password)) {
                         resolve(user)
                     } else {

@@ -13,7 +13,8 @@ type Data = {
 
 const schema = Joi.object({
     studentId: Joi.number()
-        .min(20000000)
+        .min(10000000)
+        .max(99999999)
         .required(),
     password: Joi.string()
         .min(6)

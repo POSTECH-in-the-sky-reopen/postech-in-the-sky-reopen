@@ -100,7 +100,10 @@ async function generatePlayer(userId: number, name: string, groupNum: number): P
         const promiseGroup = groupRepository.getByNum(groupNum)
         Promise.all([promiseAchievement, promiseHonored, promiseDefaultCell, promiseBasicItemInfos, promiseGroup])
             .then(async ([achievement, honored, defaultCell, basicItemInfos, group]) => {
-                const player = await playerRepository.createAndSave(name, achievement, honored, defaultCell)
+                if (group === undefined) {
+                    return reject()
+                }
+                const player = await playerRepository.createAndSave(name, achievement, honored, defaultCell, group)
                 const updateRes = await userRepository.updatePlayer(userId, player)
                 if (updateRes === undefined || updateRes.affected === 0) {
                     await playerRepository.delete(player.id)
@@ -110,9 +113,6 @@ async function generatePlayer(userId: number, name: string, groupNum: number): P
                     let item = await createItem(basicItemInfo, 0, 0)
                     await addItemManage(player, item)
                 }
-                await playerRepository.update(player.id, {
-                    group: group
-                })
                 return resolve(player)
             })
     })

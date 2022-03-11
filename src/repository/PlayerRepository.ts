@@ -15,13 +15,14 @@ export const FATIGUE_DECAY_PER_MINUTE = 1
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player> {
 
-    async createAndSave(name: string, achievement: Achievement, honored: Honored, cell: Cell): Promise<Player> {
+    async createAndSave(name: string, achievement: Achievement, honored: Honored, cell: Cell, group: GroupInfo): Promise<Player> {
         const player = new Player()
         player.name = name
         player.achievement = achievement
         player.honored = honored
         player.inventory = []
         player.location = cell
+        player.group = group
         return this.manager.save(player)
     }
 
