@@ -50,7 +50,6 @@ export default function Index() {
             fontSize: "3.3vw",
           }}
         >
-          팀 이름
         </div>
       </div>
     </div>

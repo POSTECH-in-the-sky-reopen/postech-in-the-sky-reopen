@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(ot-theme.postech.ac.kr)
+domains=(postech-in-the-sky.kr)
 rsa_key_size=4096
 data_path="./nginx-certbot/data/certbot"
 email="yysw1109@gmail.com" # Adding a valid address is strongly recommended
