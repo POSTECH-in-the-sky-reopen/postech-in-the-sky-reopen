@@ -209,7 +209,7 @@ function UserInfo(props: any) {
           }}
         >
           <img
-            src="static/AUTOCRYPT_Logo_Small.png"
+            src="/static/AUTOCRYPT_Logo_Small.png"
             style={{
               objectFit: "contain",
               height: "100%",
