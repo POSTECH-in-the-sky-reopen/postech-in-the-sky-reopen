@@ -212,12 +212,14 @@ function UserInfo(props: any) {
             src="/static/AUTOCRYPT_Logo_Small.png"
             style={{
               objectFit: "contain",
-              height: "100%",
+              height: "20vh",
+              width: "20vh",
               position: "relative",
               marginLeft: "0.2rem",
               marginRight: "0.2rem",
             }}
           />
+
           <div>
             <div style={{ display: "flex" }}>
               <Typography>
