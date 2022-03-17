@@ -224,7 +224,7 @@ const [open2, setOpen2] = React.useState(false);
   React.useEffect(function () {
     fetch("/api/player/money/current", {method: 'POST'}).then(async (response) => {
       const data = await response.json();
-      //console.log(setMoney(data.money));
+      setMoney(data.money);
     });
   }, [swapweapon]);
 
