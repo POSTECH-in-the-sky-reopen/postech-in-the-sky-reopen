@@ -218,6 +218,13 @@ function UserInfo(props: any) {
               marginLeft: "0.2rem",
               marginRight: "0.2rem",
             }}
+            onClick={function () {
+              var newlink = window.open(
+                "https://www.autocrypt.co.kr/",
+                "_blank"
+              );
+              newlink !== null ? newlink.focus() : "";
+            }}
           />
 
           <div>
