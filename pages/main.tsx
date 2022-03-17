@@ -197,7 +197,6 @@ function UserInfo(props: any) {
           backgroundColor: "#dcedf8",
           padding: "0.5rem",
           position: "relative",
-          display: "flex",
         }}
       >
         <Box
@@ -206,30 +205,42 @@ function UserInfo(props: any) {
             border: 2,
             borderColor: "white",
             padding: "0.2rem",
+            display: "flex",
           }}
         >
-          <div style={{ display: "flex" }}>
+          <Box
+            sx={{
+              height: "20vh",
+              width: "20vh",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="static/AUTOCRYPT_Logo_Small.png"
+              style={{
+                objectFit: "contain",
+                height: "15%",
+                position: "relative",
+              }}
+            />
+          </Box>
+          <div>
+            <div style={{ display: "flex" }}>
+              <Typography>
+                {" "}
+                {props.group}분반 {props.username}
+              </Typography>
+              <Typography color="#59aade" marginLeft="1.5vw">
+                {" "}
+                {props.honor}
+              </Typography>
+            </div>
             <Typography>
-              {" "}
-              {props.group}분반 {props.username}
-            </Typography>
-            <Typography color="#59aade" marginLeft="1.5vw">
-              {" "}
-              {props.honor}
+              모험 레벨: {props.adventurelevel} 재화: {props.money}
             </Typography>
           </div>
-          <Typography>
-            모험 레벨: {props.adventurelevel} 재화: {props.money}
-          </Typography>
         </Box>
-        <img
-          src="static/AUTOCRYPT_Logo_Small.png"
-          style={{
-            objectFit: "contain",
-            width: "30vw",
-            position: "relative",
-          }}
-        />
       </Box>
     </div>
   );
