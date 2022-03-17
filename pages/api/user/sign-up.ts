@@ -5,7 +5,7 @@ import { UserRepository } from 'src/repository/UserRepository'
 import { getCustomRepository, getRepository } from "typeorm"
 import Joi from "joi"
 import { PlayerRepository } from 'src/repository/PlayerRepository'
-import { Player } from 'src/entity/Player'
+import { INITIAL_MONEY, Player } from 'src/entity/Player'
 import { CellRepository } from 'src/repository/CellRepository'
 import { AchievementRepository } from 'src/repository/AchievementRepository'
 import { HonoredRepository } from 'src/repository/HonoredRepository'
@@ -101,18 +101,19 @@ async function generatePlayer(userId: number, name: string, groupNum: number): P
         Promise.all([promiseAchievement, promiseHonored, promiseDefaultCell, promiseBasicItemInfos, promiseGroup])
             .then(async ([achievement, honored, defaultCell, basicItemInfos, group]) => {
                 const player = await playerRepository.createAndSave(name, achievement, honored, defaultCell)
-                const updateRes = await userRepository.updatePlayer(userId, player)
-                if (updateRes === undefined || updateRes.affected === 0) {
-                    await playerRepository.delete(player.id)
-                    return reject()
-                }
+                await playerRepository.update(player.id, {
+                    group: group
+                })
                 for (let basicItemInfo of basicItemInfos) {
                     let item = await createItem(basicItemInfo, 0, 0)
                     await addItemManage(player, item)
                 }
-                await playerRepository.update(player.id, {
-                    group: group
-                })
+                await playerRepository.earnMoney(player.id, INITIAL_MONEY)
+                const updateRes = await userRepository.updatePlayer(userId, player.id)
+                if (updateRes === undefined || updateRes.affected === 0) {
+                    await playerRepository.delete(player.id)
+                    return reject()
+                }
                 return resolve(player)
             })
     })
