@@ -208,23 +208,16 @@ function UserInfo(props: any) {
             display: "flex",
           }}
         >
-          <Box
-            sx={{
-              height: "20vh",
-              width: "20vh",
-              alignItems: "center",
-              justifyContent: "center",
+          <img
+            src="static/AUTOCRYPT_Logo_Small.png"
+            style={{
+              objectFit: "contain",
+              height: "100%",
+              position: "relative",
+              marginLeft: "0.2rem",
+              marginRight: "0.2rem",
             }}
-          >
-            <img
-              src="static/AUTOCRYPT_Logo_Small.png"
-              style={{
-                objectFit: "contain",
-                height: "15%",
-                position: "relative",
-              }}
-            />
-          </Box>
+          />
           <div>
             <div style={{ display: "flex" }}>
               <Typography>
