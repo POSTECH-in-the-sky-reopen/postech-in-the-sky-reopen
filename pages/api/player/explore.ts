@@ -15,7 +15,7 @@ import { MonsterInfo } from 'src/entity/MonsterInfo'
 import { EquipedInformation } from 'src/interfaces/EquipedInformation'
 import { Log } from 'src/interfaces/Log'
 import { PlayerRepository } from 'src/repository/PlayerRepository'
-import { EquipableItemInfo } from 'src/entity/ItemInfo'
+import { BASIC_ITEM_INFO_ID, EquipableItemInfo } from 'src/entity/ItemInfo'
 import { EnchantItemRepository, EquipableItemRepository, ItemRepository, WeaponEquipableItemRepository } from 'src/repository/ItemRepository'
 import { AccessoryEquipableItem, EquipableItem, Item, WeaponEquipableItem } from 'src/entity/Item'
 import { EquipableItemInfoRepository } from 'src/repository/ItemInfoRepository'
@@ -112,7 +112,7 @@ export default async function handler(
             enum supplyEventList {
                 Repair, Hotsix, Flex, Varian, Bang
             }
-            const supplyProbList = [1, 1, 1, 1, 1]
+            const supplyProbList = [4, 5, 6, 3, 1]
             const supplyEvent = gachaMultiple(supplyProbList)
             let moneyReceived = 0
             let npcLog: Log[] = getNpcLog()
@@ -142,6 +142,10 @@ export default async function handler(
                 case supplyEventList.Varian:
                     if (equipments.Weapon !== undefined) {
                         const itemInfo = await getItemInfo(equipments.Weapon.id) as EquipableItemInfo
+                        if (BASIC_ITEM_INFO_ID.includes(itemInfo.id)) {
+                            supplyLog = supplyFailLog(supplyLog)
+                            break
+                        }
                         const copiedItem = await equipableItemRepository.createAndSave(itemInfo, (equipments.Weapon as EquipableItem).level, (equipments.Weapon as EquipableItem).sharpness)
                         await itemRepository.updateInventory(copiedItem.id, user.player)
                         await weaponEquipableItemRepository.updateEnchant(copiedItem.id, (equipments.Weapon as WeaponEquipableItem).enchantItemInfo)
