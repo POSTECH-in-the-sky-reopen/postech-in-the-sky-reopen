@@ -197,6 +197,7 @@ function UserInfo(props: any) {
           backgroundColor: "#dcedf8",
           padding: "0.5rem",
           position: "relative",
+          display: "flex",
         }}
       >
         <Box
@@ -222,7 +223,7 @@ function UserInfo(props: any) {
           </Typography>
         </Box>
         <img
-          src="static/AUTOCRYPT_Logo_Large_White.png"
+          src="static/AUTOCRYPT_Logo_Small.png"
           style={{
             objectFit: "contain",
             width: "30vw",
