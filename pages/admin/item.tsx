@@ -145,7 +145,7 @@ export default function ItemProvider() {
           throw new Error(data.message)
 
         alert("아이템 발급 완료")
-        location.href = "/"
+        location.href = "/admin"
       })
       .catch(err => {
         console.log(err.message)

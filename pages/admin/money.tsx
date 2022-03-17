@@ -67,7 +67,7 @@ export default function Money() {
           throw new Error(data.message)
           
         alert("재화 발급 완료")
-        location.href="/"
+        location.href = "/admin"
       })
       .catch(err => {
         console.log(err.message)

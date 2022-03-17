@@ -67,7 +67,7 @@ export default function Level() {
           throw new Error(data.message)
           
         alert("레벨 변경 완료")
-        location.href="/"
+        location.href = "/admin"
       })
       .catch(err => {
         console.log(err.message)
