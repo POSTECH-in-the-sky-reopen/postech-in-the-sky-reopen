@@ -14,3 +14,7 @@ source venv/bin/activate
 python3 -m pip install -r requirements.txt
 python3 tools/access.py
 ```
+### siege
+```
+0 15 * * * /home/ubuntu/postech-in-the-sky-reopen/tools/siege.sh >> /home/ubuntu/postech-in-the-sky-reopen/log.siege 2>&1
+```
