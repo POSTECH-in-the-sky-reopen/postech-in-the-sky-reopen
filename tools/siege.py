@@ -37,6 +37,7 @@ def update(money, itemId):
 if __name__ == "__main__":
     if len(sys.argv) == 3:
         update(sys.argv[1], sys.argv[2])
+        look()
     elif len(sys.argv) == 1:
         look()
         

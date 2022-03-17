@@ -26,7 +26,6 @@ export default function Start() {
             fontSize: "3.3vw",
           }}
         >
-          
         </div>
       </div>
     </div>

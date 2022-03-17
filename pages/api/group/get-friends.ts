@@ -56,7 +56,7 @@ export default async function handler(
         let friends = [];
         for (let player of players) {
             friends.push({
-                name: user.name,
+                name: player.name,
                 honored: selectHonored(player.honored.names,player.honored.honoredInd),
                 equipments: await getEquipments(player.id),
                 location: player.location,

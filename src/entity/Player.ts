@@ -12,6 +12,7 @@ export const MAX_NUM_EQUIPABLE_INVENTORY_EACH = 100
 export const FATIGUE_LIMIT = 80
 export const FATIGUE_INCREASE_AMOUNT = { lose: 20, win: 5 }
 export const FATIGUE_REFRESH_MONEY = 100
+export const INITIAL_MONEY = 1000
 
 @Entity()
 export class Player extends BaseEntity {

@@ -340,22 +340,6 @@ export default function Header() {
                 borderRadius: "1rem",
               }}
             >
-              <Box
-                sx={{
-                  border: 1,
-                  borderColor: "white",
-                  width: "100px",
-                  height: "100px",
-                  marginTop: "1vh",
-                  marginBottom: "1vh",
-                }}
-              >
-                <img
-                  src={occupationflag[occupationmap[i].group.num - 1].src}
-                  width="100px"
-                  height="100px"
-                ></img>{" "}
-              </Box>
               <div>
                 <Typography color="white">{occupationmap[i].name} </Typography>
                 <Typography color="white">우리의 영역이다!!!</Typography>
@@ -380,22 +364,6 @@ export default function Header() {
                 borderRadius: "1rem",
               }}
             >
-              <Box
-                sx={{
-                  border: 1,
-                  borderColor: "white",
-                  width: "100px",
-                  height: "100px",
-                  marginTop: "1vh",
-                  marginBottom: "1vh",
-                }}
-              >
-                <img
-                  src={occupationflag[occupationmap[i].group.num - 1].src}
-                  width="100px"
-                  height="100px"
-                ></img>{" "}
-              </Box>
               <div>
                 <Typography color="white">{occupationmap[i].name} </Typography>
                 <Typography color="white">

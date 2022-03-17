@@ -37,18 +37,42 @@ const theme = createTheme({
 });
 
 export interface inputField {
-  value: string,
-  message: string,
-  isValid: boolean,
+  value: string;
+  message: string;
+  isValid: boolean;
 }
 
 export default function SignUp() {
-  let [name, setName] = React.useState<inputField>({value: "", message: "", isValid: false});
-  let [studentId, setStudentId] = React.useState<inputField>({value: "", message: "", isValid: false});
-  let [povisId, setPovisId] = React.useState<inputField>({value: "", message: "", isValid: false});
-  let [group, setGroup] = React.useState<inputField>({value: "", message: "", isValid: false});
-  let [password, setPassword] = React.useState<inputField>({value: "", message: "", isValid: false});
-  let [repassword, setRepassword] = React.useState<inputField>({value: "", message: "", isValid: false});
+  let [name, setName] = React.useState<inputField>({
+    value: "",
+    message: "",
+    isValid: false,
+  });
+  let [studentId, setStudentId] = React.useState<inputField>({
+    value: "",
+    message: "",
+    isValid: false,
+  });
+  let [povisId, setPovisId] = React.useState<inputField>({
+    value: "",
+    message: "",
+    isValid: false,
+  });
+  let [group, setGroup] = React.useState<inputField>({
+    value: "",
+    message: "",
+    isValid: false,
+  });
+  let [password, setPassword] = React.useState<inputField>({
+    value: "",
+    message: "",
+    isValid: false,
+  });
+  let [repassword, setRepassword] = React.useState<inputField>({
+    value: "",
+    message: "",
+    isValid: false,
+  });
 
   const [isCheck, setIsCheck] = React.useState<boolean>(false);
 
@@ -69,9 +93,13 @@ export default function SignUp() {
   ) => {
     let value = event.target.value;
     if (!value.match(patternName)) {
-      setName({ value: value, message: "이름 형식이 올바르지 않습니다.", isValid: false});
+      setName({
+        value: value,
+        message: "이름 형식이 올바르지 않습니다.",
+        isValid: false,
+      });
     } else {
-      setName({ value: value, message: "", isValid: true});
+      setName({ value: value, message: "", isValid: true });
     }
   };
 
@@ -81,9 +109,13 @@ export default function SignUp() {
   ) => {
     let value = event.target.value;
     if (!value.match(patternStudentId)) {
-      setStudentId({ value: value, message: "학번 형식이 올바르지 않습니다.", isValid: false});
+      setStudentId({
+        value: value,
+        message: "학번 형식이 올바르지 않습니다.",
+        isValid: false,
+      });
     } else {
-      setStudentId({ value: value, message: "", isValid: true});
+      setStudentId({ value: value, message: "", isValid: true });
     }
   };
 
@@ -93,9 +125,13 @@ export default function SignUp() {
   ) => {
     let value = event.target.value;
     if (!value.match(patternPovisId)) {
-      setPovisId({ value: value, message: "POVIS 아이디 형식이 올바르지 않습니다.", isValid: false});
+      setPovisId({
+        value: value,
+        message: "POVIS 아이디 형식이 올바르지 않습니다.",
+        isValid: false,
+      });
     } else {
-      setPovisId({ value: value, message: "", isValid: true});
+      setPovisId({ value: value, message: "", isValid: true });
     }
   };
 
@@ -104,9 +140,13 @@ export default function SignUp() {
   ) => {
     let value = event.target.value;
     if (!(parseInt(value) >= 0 && parseInt(value) <= 15)) {
-      setGroup({ value: value, message: "분반 형식이 올바르지 않습니다.", isValid: false});
+      setGroup({
+        value: value,
+        message: "분반 형식이 올바르지 않습니다.",
+        isValid: false,
+      });
     } else {
-      setGroup({ value: value, message: "", isValid: true});
+      setGroup({ value: value, message: "", isValid: true });
     }
   };
 
@@ -115,9 +155,13 @@ export default function SignUp() {
   ) => {
     let value = event.target.value;
     if (value !== "" && value.length < 6) {
-      setPassword({ value: value, message: "6자 이상의 비밀번호를 입력해주세요.", isValid: false});
+      setPassword({
+        value: value,
+        message: "6자 이상의 비밀번호를 입력해주세요.",
+        isValid: false,
+      });
     } else {
-      setPassword({ value: value, message: "", isValid: true});
+      setPassword({ value: value, message: "", isValid: true });
     }
   };
   const repasswordChange: OnChangeFunc = (
@@ -125,9 +169,13 @@ export default function SignUp() {
   ) => {
     let value = event.target.value;
     if (password.value !== value) {
-      setRepassword({ value: value, message: "비밀번호가 일치하지 않습니다.", isValid: false});
+      setRepassword({
+        value: value,
+        message: "비밀번호가 일치하지 않습니다.",
+        isValid: false,
+      });
     } else {
-      setRepassword({ value: value, message: "", isValid: true});
+      setRepassword({ value: value, message: "", isValid: true });
     }
   };
   const checkboxChange: OnChangeFunc = (
@@ -158,7 +206,9 @@ export default function SignUp() {
         if (res.status >= 400) throw new Error(data.message);
 
         setWaiting(false);
-        alert(`${data.email}로 인증 메일이 발송되었습니다. 메일에 있는 링크를 눌러서 가입을 완료해주세요.`);
+        alert(
+          `${data.email}로 인증 메일이 발송되었습니다. 메일에 있는 링크를 눌러서 가입을 완료해주세요.`
+        );
         location.href = "/user/sign-in";
       })
       .catch((err) => {
@@ -344,8 +394,16 @@ export default function SignUp() {
                       개인정보 수집 및 활용 내용
                     </DialogTitle>
                     <DialogContent>
+                      <Typography>개인정보 수집·이용 동의서</Typography>
                       <Typography>
-                        TODO: 개인정보 수집 및 활용 내용 채우기
+                        {" "}
+                        천공의 섬 포스텍에서는 포스텍 구성원 인증을 통한 게임
+                        서비스 제공을 위하여 이름, 학번, POVIS 아이디, 분반
+                        정보를 수집합니다. 해당 정보는 서비스 운영이 종료되는
+                        즉시 파기될 예정이며, 위에 서술된 내용 외의 목적으로
+                        사용되지 않습니다. 위와 같이 개인정보를 수집·이용하는데
+                        동의를 거부할 권리가 있으나, 동의를 거부할 경우 서비스
+                        이용이 제한됩니다.
                       </Typography>
                     </DialogContent>
                     <DialogActions>
@@ -364,7 +422,14 @@ export default function SignUp() {
               </Grid>
               <SubmitCheckValid
                 enabled={
-                  !waiting && name.isValid && studentId.isValid && povisId.isValid && group.isValid && password.isValid && repassword.isValid && isCheck
+                  !waiting &&
+                  name.isValid &&
+                  studentId.isValid &&
+                  povisId.isValid &&
+                  group.isValid &&
+                  password.isValid &&
+                  repassword.isValid &&
+                  isCheck
                 }
                 label="회원가입"
               ></SubmitCheckValid>

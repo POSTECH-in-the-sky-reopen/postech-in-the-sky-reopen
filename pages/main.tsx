@@ -197,6 +197,7 @@ function UserInfo(props: any) {
           backgroundColor: "#dcedf8",
           padding: "0.5rem",
           position: "relative",
+          display: "flex",
         }}
       >
         <Box
@@ -217,11 +218,18 @@ function UserInfo(props: any) {
               {props.honor}
             </Typography>
           </div>
-
           <Typography>
             모험 레벨: {props.adventurelevel} 재화: {props.money}
           </Typography>
         </Box>
+        <img
+          src="static/AUTOCRYPT_Logo_Small.png"
+          style={{
+            objectFit: "contain",
+            width: "30vw",
+            position: "relative",
+          }}
+        />
       </Box>
     </div>
   );
@@ -249,7 +257,7 @@ export default function ButtonBases() {
   let [honor, setHonor] = React.useState<string | undefined>(undefined);
 
   React.useEffect(function () {
-    fetch("/api/player/equipments/get", {method: 'POST'})
+    fetch("/api/player/equipments/get", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setEquipment(data.equipments);
@@ -257,7 +265,7 @@ export default function ButtonBases() {
       .catch((error) => console.log("메인 장비 가져오기 에러"));
   }, []);
   React.useEffect(function () {
-    fetch("/api/player/name", {method: 'POST'})
+    fetch("/api/player/name", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setUsername(data.name);
@@ -266,7 +274,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/group", {method: 'POST'})
+    fetch("/api/player/group", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setGroup(data.group.num);
@@ -275,7 +283,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/fatigue/current", {method: 'POST'})
+    fetch("/api/player/fatigue/current", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setFatigue(data.fatigue);
@@ -284,7 +292,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/money/current", {method: 'POST'})
+    fetch("/api/player/money/current", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setMoney(data.money);
@@ -293,7 +301,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/fatigue/cost", {method: 'POST'})
+    fetch("/api/player/fatigue/cost", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setCost(data.cost);
@@ -302,7 +310,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/my-siege", {method: 'POST'})
+    fetch("/api/player/my-siege", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setSiege(data.siege);
@@ -311,7 +319,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/level", {method: 'POST'})
+    fetch("/api/player/level", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setAdventurelevel(data.level);
@@ -320,7 +328,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/fatigue/cost", {method: 'POST'})
+    fetch("/api/player/fatigue/cost", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setCost(data.cost);
@@ -329,7 +337,7 @@ export default function ButtonBases() {
   }, []);
 
   React.useEffect(function () {
-    fetch("/api/player/achievement/get-honored", {method: 'POST'})
+    fetch("/api/player/achievement/get-honored", { method: "POST" })
       .then(async (response) => {
         const data = await response.json();
         setHonor(data.honored);
@@ -497,7 +505,7 @@ export default function ButtonBases() {
   //let myweapon = "/static/무기/" + equipment?.Weapon?.itemInfo.name + ".png";
 
   function openInNewTap() {
-    let win = window.open("https://open.kakao.com/o/s2NGpUZd", "_blank");
+    let win = window.open("https://open.kakao.com/o/sAjL7f6d", "_blank");
     win !== undefined && win !== null ? win.focus() : "";
   }
 
@@ -625,7 +633,7 @@ export default function ButtonBases() {
               if (money !== undefined && cost !== undefined) {
                 if (money >= cost && fatigue != 0) {
                   setdialog2Open(true);
-                  fetch("/api/player/fatigue/refresh", {method: 'POST'}).then(
+                  fetch("/api/player/fatigue/refresh", { method: "POST" }).then(
                     async (response) => {
                       const data = await response.json();
                     }

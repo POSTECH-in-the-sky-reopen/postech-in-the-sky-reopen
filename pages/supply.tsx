@@ -145,7 +145,7 @@ export default function Supply() {
           my: 1,
         }}
       >
-        {log[0][0].name} 선배님의 메시지 입니다!
+        {log[0][0].name} 의 메시지 입니다!
       </Typography>
     )
 

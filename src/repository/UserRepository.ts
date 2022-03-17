@@ -31,9 +31,9 @@ export class UserRepository extends Repository<User> {
             this.findOneByInfo(name, studentId, povisId)
                 .then(user => {
                     if (user.confirmEmailToken){
-                        reject("사용자가 존재하지만 이메일 인증이 되지 않았습니다.")
+                        reject(new Error("사용자가 존재하지만 이메일 인증이 되지 않았습니다. 가입 이메일이 몇 분 내로 오지 않았다면 https://open.kakao.com/o/svY9xv5d 에서 말씀해주세요. "))
                     } else {
-                        reject("이미 존재하는 사용자입니다.")
+                        reject(new Error("이미 존재하는 사용자입니다."))
                     }
                 })
                 .catch(err => {
@@ -137,8 +137,8 @@ export class UserRepository extends Repository<User> {
             .execute()
     }
 
-    async updatePlayer(id: number, player: Player | undefined): Promise<UpdateResult> {
-        return this.update(id, { player: player})
+    async updatePlayer(id: number, playerId: number): Promise<UpdateResult> {
+        return this.update(id, { player: { id: playerId }})
     }
     
     async checkPassword(studentId: number, password: string): Promise<User> {
