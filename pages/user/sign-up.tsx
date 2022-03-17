@@ -54,6 +54,8 @@ export default function SignUp() {
 
   const [open, setOpen] = React.useState(false);
 
+  const [waiting, setWaiting] = React.useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -137,6 +139,7 @@ export default function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    setWaiting(true);
     fetch("/api/user/sign-up", {
       method: "POST",
       headers: {
@@ -154,10 +157,12 @@ export default function SignUp() {
         const data = await res.json();
         if (res.status >= 400) throw new Error(data.message);
 
+        setWaiting(false);
         alert(`${data.email}로 인증 메일이 발송되었습니다. 메일에 있는 링크를 눌러서 가입을 완료해주세요.`);
         location.href = "/user/sign-in";
       })
       .catch((err) => {
+        setWaiting(false);
         console.log(err.message);
         alert("올바르지 않은 정보가 입력되었습니다.");
       });
@@ -359,7 +364,7 @@ export default function SignUp() {
               </Grid>
               <SubmitCheckValid
                 enabled={
-                  name.isValid && studentId.isValid && povisId.isValid && group.isValid && password.isValid && repassword.isValid && isCheck
+                  !waiting && name.isValid && studentId.isValid && povisId.isValid && group.isValid && password.isValid && repassword.isValid && isCheck
                 }
                 label="회원가입"
               ></SubmitCheckValid>
